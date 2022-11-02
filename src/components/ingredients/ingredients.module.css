@@ -1,0 +1,14 @@
+.element{
+    width: 272px;
+    position: relative;
+}
+
+.price{
+    display: flex;
+    justify-content: center;
+}
+
+.text{
+    height: 48px;
+    text-align: center;
+}

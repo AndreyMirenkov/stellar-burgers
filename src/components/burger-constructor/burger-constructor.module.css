@@ -1,0 +1,42 @@
+.content{
+    width: 600px;
+    height: 912px;
+}
+
+.fill{
+    width: 600px;
+    overflow-y: overlay;
+    max-height: 464px;
+    margin: 0;
+    padding: 0;
+}
+
+
+.fill::-webkit-scrollbar {
+    width: 8px;
+  }
+.fill::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+.fill::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }
+
+.fill__element{
+  width: 568px;
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+}
+
+.infoorder{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
+.price{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
