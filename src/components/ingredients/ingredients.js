@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './ingredients.module.css';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types';
+import {dataPropTypes} from '../../utils/prop-types';
 
 function Ingredients({element}){
 
@@ -12,9 +14,12 @@ function Ingredients({element}){
                 <CurrencyIcon type="primary"/>
             </div>
             <p className = {`text text_type_main-default ${styles.text}`}>{element.name}</p>
-            {element.type === 'bun' && <Counter count={1} size="default" />}
         </div>
     )
+}
+
+Ingredients.propTypes = {
+    element: PropTypes.shape(dataPropTypes).isRequired,
 }
 
 export default Ingredients;

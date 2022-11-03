@@ -1,25 +1,45 @@
 .content{
     width: 600px;
     height: 912px;
-    overflow-y: overlay;
-    scroll-behavior: smooth;
+}
+  
+.text_header{
+  text-align: start;
 }
 
-.content::-webkit-scrollbar {
-    width: 8px;
-  }
-.content::-webkit-scrollbar-track {
-    background: #2F2F37;
-  }
-.content::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
-  }
-  
+.nav{
+  display: flex;
+}
 
-.ingredientslist{
+.nav__text{
+  text-decoration: none;
+}
+
+.all_ingredients{
+  height: 716px;
+  overflow-y: overlay;
+  scroll-behavior: smooth;
+}
+
+.all_ingredients::-webkit-scrollbar {
+  width: 8px;
+}
+.all_ingredients::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+.all_ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.ingredients__chapter{
+  text-align: start;
+}
+
+.ingredients_list{
     width: 568px;
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
     justify-content: space-between;
+    gap:  32px 0;
 }

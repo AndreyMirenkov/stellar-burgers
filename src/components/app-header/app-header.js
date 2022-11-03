@@ -6,22 +6,22 @@ function AppHeader(){
     return (
         <header className={styles.header}>
                 <nav className={styles.list}>
-                    <li className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                    <a href = '#1' className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
                         <BurgerIcon type="primary"/>
-                        <p className = 'pl-2 text text_type_main-default'>Конструктор</p>
-                    </li>
-                    <li className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                        <p className = {`pl-2 text text_type_main-default ${styles.text}`}>Конструктор</p>
+                    </a>
+                    <a href = '#1' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
                         <ListIcon type="secondary" />
-                        <p className='pl-2 text text_type_main-default'>Лента заказов</p>
-                    </li>
+                        <p className={`pl-2 text text_type_main-default ${styles.text}`}>Лента заказов</p>
+                    </a>
                 </nav>
-                <div className={styles.logo}>
+                <a href = '#1' className={styles.logo}>
                     <Logo/>
-                </div>
-                <div className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                </a>
+                <a href = '#1' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
                     <ProfileIcon type="secondary" />
-                    <p className='pl-2 text text_type_main-default'>Личный кабинет</p>
-                </div>
+                    <p className={`pl-2 text text_type_main-default ${styles.text}`}>Личный кабинет</p>
+                </a>
         </header>
     )
 }

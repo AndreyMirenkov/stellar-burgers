@@ -20,8 +20,12 @@
     list-style: none;
     display: flex;
     border-radius: 40px;
+    text-decoration: none;
 }
 
+.text{
+    color: #F2F2F3;
+}
 
 .logo{
     width: 290px;
