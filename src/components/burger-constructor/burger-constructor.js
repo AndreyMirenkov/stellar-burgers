@@ -6,9 +6,9 @@ import IngredientsCategory from '../ingredients-category/ingredients-category';
 import PropTypes from 'prop-types';
 import {dataPropTypes} from '../../utils/prop-types'
 
-function BurgerConstructor({data}){
+function BurgerConstructor({data, onClick}){
 
-const priceArray = data.map(item => item.price)
+const priceArray = useMemo(() => data.map(item => item.price), [data]);
 const sum = useMemo(() => priceArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArray]);
 
 
@@ -45,7 +45,7 @@ const sum = useMemo(() => priceArray.reduce((previousValue, currentValue) => pre
                 <p className='mr-2 text text_type_digits-medium'>{sum}</p>
                 <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" htmlType='button'>
+            <Button type="primary" size="large" htmlType='button' onClick={onClick}>
                 Оформить заказ
             </Button>
             </div>
@@ -54,8 +54,7 @@ const sum = useMemo(() => priceArray.reduce((previousValue, currentValue) => pre
 }
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape(dataPropTypes).isRequired,
-)}
+    data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+}
 
 export default BurgerConstructor

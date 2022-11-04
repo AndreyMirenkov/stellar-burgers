@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const dataPropTypes = {
+export const dataPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
@@ -13,4 +13,4 @@ export const dataPropTypes = {
     image_mobile: PropTypes.string.isRequired,
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
-}
+})
