@@ -5,9 +5,11 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import Ingredients from '../ingredients/ingredients';
 import {dataPropTypes} from '../../utils/prop-types'
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 
-function BurgerIngredients({data, onClick}){
+function BurgerIngredients({data, elPopup, isOpen, onClose, onClick}){
     const [current, setCurrent] = useState('one');
 
     const buns = useMemo(() => data.filter((item) => item.type === 'bun'), [data]);
@@ -58,12 +60,22 @@ function BurgerIngredients({data, onClick}){
                     }
                 </div>
             </div>
+
+            {isOpen && (
+            <Modal onClose={onClose} heading = {true}>
+                <IngredientDetails data = {elPopup}/>
+            </Modal>
+            )}
         </section>
     )
 }
 
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+    elPopup: dataPropTypes.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;

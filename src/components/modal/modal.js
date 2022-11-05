@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { createPortal } from 'react-dom';
 import styles from './modal.module.css'
 import ModalOverlay from "../modal-overlay/modal-overlay";
@@ -8,7 +9,18 @@ const modalRoot = document.getElementById("react-modals");
 
 function Modal({children, onClose, heading }){
 
-    
+    useEffect(() => {
+        document.addEventListener('keydown', ((evt) => handleClickEscape(evt)));
+
+        return document.removeEventListener('keydown',  ((evt) => handleClickEscape(evt)));
+    },[])
+
+    const handleClickEscape = (evt) =>{
+        if(evt.key === 'Escape'){
+            onClose();
+        }
+    } 
+
     return createPortal(
         <>
         <div className={styles.modal}>

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 const headers = {
     'Accept': 'application/json',
@@ -14,7 +14,7 @@ const checkResponse = (res) => {
 }
 
 export const getInfo = () => {
-    return fetch(`${BASE_URL}`, {
+    return fetch(`${BASE_URL}/ingredients`, {
         method: 'GET',
         headers: headers,
     }).then(checkResponse);

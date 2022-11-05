@@ -1,15 +1,14 @@
 import React from "react";
 import styles from './ingredient-details.module.css';
-import Modal from "../modal/modal";
 import PropTypes from 'prop-types';
 import {dataPropTypes} from '../../utils/prop-types'
 
-function IngredientDetails({data, isOpen, onClose}){
+function IngredientDetails({data}){
 
     const dataIngredient = ({...data});
-
-    const modal = (
-        <Modal onClose = {onClose} heading = {true}> 
+      
+    return (
+        <div className={styles.content}>
             <img className={styles.img} src = {dataIngredient.image} alt = 'Картинка'/>
             <h3 className={`mt-4 mb-8 text text_type_main-medium ${styles.name}`}>{dataIngredient.name}</h3>
             <ul className={`mb-15 text text_type_main-small text_color_inactive ${styles.info}`}>
@@ -30,20 +29,12 @@ function IngredientDetails({data, isOpen, onClose}){
                     <p className={`text_type_digits-default ${styles.element_value}`}>{dataIngredient.carbohydrates}</p>
                 </li>
             </ul>
-        </Modal>
-        );
-      
-    return (
-        <div style={{overflow: 'hidden'}}>
-            {isOpen && modal}
         </div>
     );
 }
 
 IngredientDetails.propTypes = {
-    data: dataPropTypes,
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired
+    data: dataPropTypes.isRequired,
 }
 
 export default IngredientDetails;

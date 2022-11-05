@@ -1,3 +1,7 @@
+.content{
+    overflow: hidden;
+}
+
 .name{
     text-align: center;
 }

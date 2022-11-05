@@ -5,8 +5,10 @@ import {ConstructorElement, CurrencyIcon, Button, DragIcon} from '@ya.praktikum/
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import PropTypes from 'prop-types';
 import {dataPropTypes} from '../../utils/prop-types'
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
-function BurgerConstructor({data, onClick}){
+function BurgerConstructor({data, isOpen, onClose, onClick}){
 
 const priceArray = useMemo(() => data.map(item => item.price), [data]);
 const sum = useMemo(() => priceArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArray]);
@@ -49,12 +51,21 @@ const sum = useMemo(() => priceArray.reduce((previousValue, currentValue) => pre
                 Оформить заказ
             </Button>
             </div>
+
+            {isOpen && (
+            <Modal onClose={onClose} heading = {false}>
+                <OrderDetails/>
+            </Modal>
+            )}
         </section>
     )
 }
 
 BurgerConstructor.propTypes = {
     data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default BurgerConstructor
