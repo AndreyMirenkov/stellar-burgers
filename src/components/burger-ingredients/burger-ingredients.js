@@ -72,7 +72,7 @@ function BurgerIngredients({data, elPopup, isOpen, onClose, onClick}){
 
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
-    elPopup: dataPropTypes.isRequired,
+    elPopup: dataPropTypes,
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,

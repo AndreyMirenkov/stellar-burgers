@@ -16,8 +16,8 @@ useEffect(() => {
   getInfo()
   .then(res => {
     setData(res.data)
-  }).catch(err => {
-    console.log(err)
+  }).catch(() => {
+    alert('Возникла ошибка при получении данных с сервера.')
   })
 }, [])
 
