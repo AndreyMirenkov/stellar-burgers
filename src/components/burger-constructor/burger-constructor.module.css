@@ -14,6 +14,7 @@
 .fill{
     width: 600px;
     overflow-y: overlay;
+    min-height: 80px;
     max-height: 464px;
     margin: 0;
     padding: 0;
@@ -51,4 +52,36 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+}
+
+.drop_container_top{
+  width: 536px;
+  height: 80px;
+  background: #2f2f37;
+  border-radius: 88px 88px 40px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop_container_main{
+  width: 536px;
+  height: 80px;
+  background: #2f2f37;
+  border-radius: 40px;
+  list-style: none;
+  margin-left: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop_container_bottom{
+  width: 536px;
+  height: 80px;
+  background: #2f2f37;
+  border-radius: 40px 40px 88px 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
