@@ -1,0 +1,35 @@
+.content{
+    overflow: hidden;
+}
+
+.name{
+    text-align: center;
+}
+
+.img{
+    height: 240px;
+    display: block;
+    margin: 0 auto;
+}
+
+.info{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.element{
+    width: 112px;
+    height: 56px;
+    text-align: center;
+}
+
+.element_name{
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.element_value{
+    margin: 0;
+}
