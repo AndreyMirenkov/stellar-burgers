@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './order-details.module.css';
 import orderImg from '../../images/icon-order.svg'
+import PropTypes from 'prop-types';
 
 function OrderDetails({infoOrder}) {
 
@@ -13,6 +14,10 @@ function OrderDetails({infoOrder}) {
         <p className={`mb-30 text text_type_main-default text_color_inactive ${styles.text}`}>Дождитесь готовности на орбитальной станции</p>
       </div>
     );
+}
+
+OrderDetails.propTypes = {
+  infoOrder: PropTypes.object.isRequired,
 }
 
 export default OrderDetails;

@@ -10,18 +10,19 @@ import OrderDetails from '../order-details/order-details';
 import {useSelector, useDispatch} from 'react-redux'
 import {useDrop} from 'react-dnd'
 import update from 'immutability-helper';
-import {GET_CONSTRUCTOR_BUNS_INGREDIENTS, GET_CONSTRUCTOR_MAIN_INGREDIENTS, UPDATE_MAIN_INGREDIENTS} from '../../services/action';
+import { getConstructorBunsIngredients, getConstructorMainIngredients, updateMainIngredients } from '../../services/actionCreators';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor({isOpen, onClose, onClick}){
     
 const dispatch = useDispatch();
 const [ingredients, setIngredients] = useState([]);
+const [priceArrayMain, setPriceArrayMain] = useState([]); 
 const infoOrder = useSelector(store => store.order);
 const mainIngredients = useSelector(store => store.ingredientsInConstructor.ingredients);
 const bunsIngredients = useSelector(store => store.ingredientsInConstructor.buns);
-const priceArrayMain = useMemo(() => mainIngredients.map(item => item.price), [mainIngredients]);
 const priceBuns = useMemo(() => bunsIngredients.map(item => item.price), [bunsIngredients])
 const sumBuns = useMemo(() => priceBuns * 2)
 const sumMain = useMemo(() => priceArrayMain.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArrayMain]);
@@ -33,7 +34,8 @@ const [{ isHover }, dropTarget] = useDrop({
       isHover: monitor.isOver()
     }),
     drop(item){
-        dispatch({type: GET_CONSTRUCTOR_MAIN_INGREDIENTS, item })
+        const key = uuidv4();
+        dispatch(getConstructorMainIngredients(item, key))
   }
   });
   const [{ isHoverBunTop }, dropBunTop] = useDrop({
@@ -42,7 +44,7 @@ const [{ isHover }, dropTarget] = useDrop({
       isHoverBunTop: monitor.isOver()
     }),
     drop(item){
-        dispatch({type: GET_CONSTRUCTOR_BUNS_INGREDIENTS, item })
+        dispatch(getConstructorBunsIngredients(item))
   }
   });
 
@@ -52,17 +54,20 @@ const [{ isHover }, dropTarget] = useDrop({
       isHoverBunBottom: monitor.isOver()
     }),
     drop(item){
-        dispatch({type: GET_CONSTRUCTOR_BUNS_INGREDIENTS, item })
+        dispatch(getConstructorBunsIngredients(item))
   }
   });
 
+useEffect(() => {
+    setPriceArrayMain(mainIngredients.map(item => item.details.price));
+},[mainIngredients])
 
 useEffect(() => {
     setIngredients(mainIngredients);
 },[mainIngredients])
 
 useEffect(() => {
-    dispatch({type: UPDATE_MAIN_INGREDIENTS, data: ingredients })
+    dispatch(updateMainIngredients(ingredients))
 }, [ingredients]);
 
 const moveIngredient = useCallback((dragIndex, hoverIndex) => {
@@ -94,9 +99,9 @@ const moveIngredient = useCallback((dragIndex, hoverIndex) => {
                 </div>
                 <DndProvider backend={HTML5Backend}>
                 <ul ref = {dropTarget} className= {styles.fill} style = {{border: borderMain, borderRadius: 40}}>
-                {mainIngredients[0] ? 
+                {mainIngredients.length !== 0 ? 
                     mainIngredients.map((el, index) => (
-                    <IngredientsCategory key={index} id = {el._id} text = {el.name} price = {el.price} thumbnail = {el.image} index = {index} moveIngredient = {moveIngredient}/>
+                    <IngredientsCategory key={el.key} id = {el.details._id} text = {el.details.name} price = {el.details.price} thumbnail = {el.details.image} index = {index} moveIngredient = {moveIngredient} keyDelete = {el.key}/>
                 ))
                 :
                     <li className = {`text text_type_main-default ${styles.drop_container_main}`}>Выберите соус и начинку</li>}
@@ -119,7 +124,7 @@ const moveIngredient = useCallback((dragIndex, hoverIndex) => {
                 <p className='mr-2 text text_type_digits-medium'>{sum}</p>
                 <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" htmlType='button' onClick={onClick}>
+            <Button type="primary" size="large" htmlType='button' onClick={onClick} disabled = {!bunsIngredients[0]}>
                 Оформить заказ
             </Button>
             </div>

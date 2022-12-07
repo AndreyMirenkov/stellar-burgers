@@ -21,7 +21,7 @@ function Ingredients({element, onClick, type}){
 
 useEffect(() => {
     if(type === 'main'){
-        setQuantity(() => ingredientsInBurger.ingredients.filter((item) => item._id === id).length);
+        setQuantity(() => ingredientsInBurger.ingredients.filter((item) => item.details._id === id).length);
     } else {
         if (ingredientsInBurger.buns.filter((item) => item._id === id).length === 0){
             setQuantity(0);

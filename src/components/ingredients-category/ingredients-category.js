@@ -3,10 +3,10 @@ import styles from './ingredients-category.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux'
-import { GET_CONSTRUCTOR_DELETE_MAIN_INGREDIENTS } from "../../services/action";
+import { deleteConstructorMainIngredient } from "../../services/actionCreators";
 import {useDrag, useDrop} from 'react-dnd'
 
-function IngredientsCategory({id, text, price, thumbnail, index, moveIngredient}){
+function IngredientsCategory({id, text, price, thumbnail, index, moveIngredient, keyDelete}){
 
 const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ const dispatch = useDispatch();
                 price = {price}
                 thumbnail= {thumbnail}
                 handleClose = {() => {
-                    dispatch({type: GET_CONSTRUCTOR_DELETE_MAIN_INGREDIENTS, id: id})
+                    dispatch(deleteConstructorMainIngredient(keyDelete))
                 }}
             />
         </li>
@@ -72,12 +72,13 @@ const dispatch = useDispatch();
 }
 
 IngredientsCategory.propTypes = {
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
+    id: PropTypes.string,
+    text: PropTypes.string,
+    price: PropTypes.number,
+    thumbnail: PropTypes.string,
+    index: PropTypes.number,
     moveIngredient: PropTypes.func.isRequired,
+    keyDelete: PropTypes.string,
 }
 
 export default IngredientsCategory;

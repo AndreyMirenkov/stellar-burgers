@@ -4,7 +4,6 @@ import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import Ingredients from '../ingredients/ingredients';
-import {dataPropTypes} from '../../utils/prop-types'
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { InView, useInView } from "react-intersection-observer";
@@ -86,7 +85,7 @@ function BurgerIngredients({ isOpen, onClose, onClick}){
             </div>
                      
             {isOpen && (
-            <Modal onClose={onClose} heading = {true}>
+            <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
                 <IngredientDetails data = {watchElPopup}/>
             </Modal>
             )}
