@@ -11,7 +11,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import Preloader from '../preloader/preloader';
 
-export let successes = false;
 
 function App() {
   const [visibleOrderDetails, setVisibleOrderDetails] = useState(false);
