@@ -4,14 +4,14 @@ import styles from  './app.module.css';
 import AppHeader from '../app-header/app-header'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import {getNumberOrder} from '../../utils/api'
 import {useDispatch, useSelector} from 'react-redux'
-import {getApiIngredients} from '../../services/actionCreators';
-import { watchIngredient, deleteWatchIngredient, getAndUpdateOrder, deleteConstructorIngredients } from '../../services/actionCreators';
+import {getApiIngredients, getApiNumberOrder} from '../../services/actionCreators';
+import { watchIngredient, deleteWatchIngredient, deleteConstructorIngredients } from '../../services/actionCreators';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import Preloader from '../preloader/preloader';
 
+export let successes = false;
 
 function App() {
   const [visibleOrderDetails, setVisibleOrderDetails] = useState(false);
@@ -34,20 +34,15 @@ useEffect(() => {
   dispatch(getApiIngredients())
 },[dispatch])
 
-
   const handleOpenOrderDetails = () => {
     setOpenPreloader(true);
-    return getNumberOrder(orderData)
-    .then(res => {
-      dispatch(getAndUpdateOrder(res.order.number, res.name));
-      setVisibleOrderDetails(true);
-      setTimeout(() => dispatch(deleteConstructorIngredients()), 100)
-    }).catch(err => {
-      console.log(err);
-    }).finally(() => {
-      setOpenPreloader(false);
-    })
+    dispatch(getApiNumberOrder(orderData))
+    setTimeout(() => {
+      setOpenPreloader(false)
+      setVisibleOrderDetails(true)
+      dispatch(deleteConstructorIngredients())},500);
   }
+
 
   const handleOpenIngredientDetails = (data) => {
     dispatch(watchIngredient(data));
