@@ -19,3 +19,13 @@ export const getInfo = () => {
         headers: headers,
     }).then(checkResponse);
 }
+
+export const getNumberOrder = (data) => {
+    return fetch(`${BASE_URL}/orders`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+            ingredients: data
+        })
+    }).then(checkResponse);
+}

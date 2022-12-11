@@ -4,16 +4,17 @@ import { createPortal } from 'react-dom';
 import styles from './modal.module.css'
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from 'prop-types';
+import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({children, onClose, heading }){
+function Modal({children, onClose, heading, title }){
 
     useEffect(() => {
-        document.addEventListener('keydown', ((evt) => handleClickEscape(evt)));
-
-        return document.removeEventListener('keydown',  ((evt) => handleClickEscape(evt)));
-    },[])
+        document.addEventListener("keydown", handleClickEscape);
+    
+        return () => document.removeEventListener("keydown", handleClickEscape);
+      }, []);
 
     const handleClickEscape = (evt) =>{
         if(evt.key === 'Escape'){
@@ -26,8 +27,11 @@ function Modal({children, onClose, heading }){
         <div className={styles.modal}>
             <ModalOverlay onClose={onClose}/>
             <div className={styles.modal_field}>
-            {heading && <h2 className={`text text_type_main-large ${styles.text}`}>Детали ингредиента</h2>}
-            <button className={styles.button_close} type= "button" onClick={onClose}/>
+            {heading && 
+            <h2 className={`text text_type_main-large ${styles.text}`}>{title}</h2>}
+            <button className={styles.button_close} type= "button">
+                <CloseIcon type="primary" onClick={onClose}/>
+            </button>
                 <div className={styles.content}>
                     {children}
                 </div>
@@ -43,6 +47,7 @@ Modal.propTypes = {
     children: PropTypes.any.isRequired,
     onClose: PropTypes.func.isRequired,
     heading: PropTypes.bool.isRequired,
+    title: PropTypes.string,
 }
 
 export default Modal;
