@@ -1,4 +1,5 @@
 import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
@@ -6,19 +7,21 @@ import reportWebVitals from './reportWebVitals';
 import { Reducer } from 'redux';
 import { configurationStore } from './services/store';
 import { Provider } from 'react-redux';
-import { initialState } from './services/reducers';
+import { InitialState } from './services/combine-reducers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 
-const store = configurationStore(initialState);
+const store = configurationStore(InitialState);
 
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

@@ -6,7 +6,9 @@ import { GET_ALL_INGREDIENTS,
   DELETE_WATCH_INGREDIENTS, 
   GET_AND_UPDATE_ORDER, 
   UPDATE_MAIN_INGREDIENTS, 
-  DELETE_CONSTRUCTOR_INGREDIENTS} from "./action"
+  DELETE_CONSTRUCTOR_INGREDIENTS,
+  LOADING_INGREDIENT_DETAILS,
+  FINISH_LOADING_INGREDIENT_DETAILS} from "./action"
 
 export const initialState = {
     ingredients: [],
@@ -24,6 +26,7 @@ export const initialState = {
       number: null,
       name: null,
     },
+    loadingIngredientDetails: false
   }
 
 export const rootReducer = (state = initialState, action) => {
@@ -98,6 +101,18 @@ export const rootReducer = (state = initialState, action) => {
             buns: [],
             ingredients: []
           }
+        }
+      }
+      case LOADING_INGREDIENT_DETAILS: {
+        return {
+          ...state,
+          loadingIngredientDetails: true
+        }
+      }
+      case FINISH_LOADING_INGREDIENT_DETAILS: {
+        return {
+          ...state,
+          loadingIngredientDetails: false
         }
       }
       default: {

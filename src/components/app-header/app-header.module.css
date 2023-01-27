@@ -23,6 +23,10 @@
     text-decoration: none;
 }
 
+.active_link{
+    color: red;
+}
+
 .text{
     color: #F2F2F3;
 }
@@ -32,4 +36,3 @@
     margin-left: 112px;
     margin-right: 289px;
 }
-

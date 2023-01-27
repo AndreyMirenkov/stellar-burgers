@@ -1,27 +1,86 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import styles from './app-header.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { actionLinkClickPage } from "../../services/auth-actionCreators";
+
 function AppHeader(){
+    const location = useLocation();
+    const loggedIn = useSelector(store => store.authReducer.loggedIn)
+    const dispatch = useDispatch();
+    const [typeMain, setTypeMain] = useState(false);
+    const [typeList, setTypeList] = useState(false);
+    const [typeProfile, setTypeProfile] = useState(false);
+    const [textMain, setTextMain] = useState(false);
+    const [textList, setTextList] = useState(false);
+    const [textProfile, setTextProfile] = useState(false);
+
+   const onClick = () => {
+    if (!loggedIn){
+        dispatch(actionLinkClickPage('profile'))
+    }
+   }
+
+const markMain = typeMain ? 'primary' : 'secondary' ;
+const markList = typeList ? 'primary' : 'secondary' ;
+const markProfile = typeProfile ? 'primary' : 'secondary'; 
+const textActiveMain = textMain ? '' : 'text_color_inactive';
+const textActiveList = textList ? '' : 'text_color_inactive';
+const textActiveProfile = textProfile ? '' : 'text_color_inactive';
+
+
+   useEffect(() => {
+    if (location.pathname === '/'){
+        setTypeMain(true);
+        setTypeList(false);
+        setTypeProfile(false)
+        setTextMain(true);
+        setTextList(false);
+        setTextProfile(false);
+    }
+    if (location.pathname === '/list'){
+        console.log(location)
+        setTypeMain(false);
+        setTypeList(true);
+        setTypeProfile(false);
+        setTextMain(false);
+        setTextList(true);
+        setTextProfile(false);
+    }
+    if (location.pathname === '/profile'){
+        setTypeProfile(true);
+        setTypeMain(false);
+        setTypeList(false);
+        setTextMain(false);
+        setTextList(false);
+        setTextProfile(true);
+    }
+   },[location])
+    
+   
+   
 
     return (
         <header className={styles.header}>
                 <nav className={styles.list}>
-                    <a href = '#1' className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
-                        <BurgerIcon type="primary"/>
-                        <p className = {`pl-2 text text_type_main-default ${styles.text}`}>Конструктор</p>
-                    </a>
-                    <a href = '#1' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
-                        <ListIcon type="secondary" />
-                        <p className={`pl-2 text text_type_main-default ${styles.text}`}>Лента заказов</p>
-                    </a>
+                    <Link to = '/' className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                        <BurgerIcon type={markMain}/>
+                        <p className = {`pl-2 text text_type_main-default ${textActiveMain} ${styles.text}`}>Конструктор</p>
+                    </Link>
+                    <Link to = '/' className={`pl-5 pr-5 pb-4 pt-4 ${textActiveList} ${styles.item}`}>
+                        <ListIcon type={markList} />
+                        <p className={`pl-2 text text_type_main-default text_color_inactive ${styles.text}`}>Лента заказов</p>
+                    </Link>
                 </nav>
-                <a href = '#1' className={styles.logo}>
+                <Link to = '/' className={styles.logo}>
                     <Logo/>
-                </a>
-                <a href = '#1' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
-                    <ProfileIcon type="secondary" />
-                    <p className={`pl-2 text text_type_main-default ${styles.text}`}>Личный кабинет</p>
-                </a>
+                </Link>
+                <Link to = '/profile' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`} onClick = {onClick}>
+                    <ProfileIcon type={markProfile} />
+                    <p className={`pl-2 text text_type_main-default ${textActiveProfile} ${styles.text}`}>Личный кабинет</p>
+                </Link>
         </header>
     )
 }

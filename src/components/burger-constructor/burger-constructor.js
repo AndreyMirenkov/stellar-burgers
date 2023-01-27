@@ -15,18 +15,27 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { v4 as uuidv4 } from 'uuid';
 
+
 function BurgerConstructor({isOpen, onClose, onClick}){
     
 const dispatch = useDispatch();
 const [ingredients, setIngredients] = useState([]);
 const [priceArrayMain, setPriceArrayMain] = useState([]); 
-const infoOrder = useSelector(store => store.order);
-const mainIngredients = useSelector(store => store.ingredientsInConstructor.ingredients);
-const bunsIngredients = useSelector(store => store.ingredientsInConstructor.buns);
+const infoOrder = useSelector(store => store.rootReducer.order);
+const mainIngredients = useSelector(store => store.rootReducer.ingredientsInConstructor.ingredients);
+const bunsIngredients = useSelector(store => store.rootReducer.ingredientsInConstructor.buns);
 const priceBuns = useMemo(() => bunsIngredients.map(item => item.price), [bunsIngredients])
 const sumBuns = useMemo(() => priceBuns * 2)
 const sumMain = useMemo(() => priceArrayMain.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArrayMain]);
 const sum = useMemo(() => sumMain + sumBuns, [sumMain, sumBuns]);
+
+
+useEffect(() =>{
+    if (mainIngredients.length !== 0){
+        setIngredients(mainIngredients)
+    }
+},[mainIngredients])
+
 
 const [{ isHover }, dropTarget] = useDrop({
     accept: 'main',
@@ -129,10 +138,12 @@ const moveIngredient = useCallback((dragIndex, hoverIndex) => {
             </Button>
             </div>
 
+          
+
             {isOpen && (
-            <Modal onClose={onClose} heading = {false}>
-                <OrderDetails infoOrder={infoOrder}/>
-            </Modal>
+                <Modal onClose={onClose} heading = {false}>
+                    <OrderDetails infoOrder={infoOrder}/>
+                </Modal>
             )}
         </section>
     )

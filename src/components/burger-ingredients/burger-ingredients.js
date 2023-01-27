@@ -12,8 +12,8 @@ import {useSelector} from 'react-redux';
 
 function BurgerIngredients({ isOpen, onClose, onClick}){
     const [current, setCurrent] = useState('one');
-    const data = useSelector(store => store.ingredients);
-    const watchElPopup = useSelector(store => store.watchIngredients);
+    const data = useSelector(store => store.rootReducer.ingredients);
+    //const watchElPopup = useSelector(store => store.rootReducer.watchIngredients);
 
     const buns = useMemo(() => data.filter((item) => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter((item) => item.type === 'main'), [data]);
@@ -84,11 +84,11 @@ function BurgerIngredients({ isOpen, onClose, onClick}){
                 </InView>
             </div>
                      
-            {isOpen && (
+            {/* {isOpen && (
             <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
                 <IngredientDetails data = {watchElPopup}/>
             </Modal>
-            )}
+            )} */}
         </section>
     )
 }
