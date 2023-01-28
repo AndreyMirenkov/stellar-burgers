@@ -64,7 +64,7 @@ function Profile({getProfile, updateProfile, logoutProfile}) {
             </div>
             {location.pathname === '/profile'
             ?
-            <div className={styles.main_field}>
+            <form className={styles.main_field} onSubmit = {handleClick}>
                 <ul className={styles.list}>
                     <li className='mb-6'>
                         <Input  type={'text'}
@@ -99,11 +99,11 @@ function Profile({getProfile, updateProfile, logoutProfile}) {
                 <Button htmlType="button" type="secondary" size="medium" onClick = {handleReturn}>
                     Отмена
                 </Button>
-                <Button type="primary" size="medium" htmlType='button' onClick = {handleClick}>
+                <Button type="primary" size="medium" htmlType='submit'>
                     Сохранить
                 </Button>
                 </div>
-            </div>
+            </form>
             :
             <div></div>
             } 

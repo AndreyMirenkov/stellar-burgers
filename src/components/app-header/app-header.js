@@ -3,13 +3,9 @@ import { useState, useEffect } from "react";
 import styles from './app-header.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { actionLinkClickPage } from "../../services/auth-actionCreators";
 
 function AppHeader(){
     const location = useLocation();
-    const loggedIn = useSelector(store => store.authReducer.loggedIn)
-    const dispatch = useDispatch();
     const [typeMain, setTypeMain] = useState(false);
     const [typeList, setTypeList] = useState(false);
     const [typeProfile, setTypeProfile] = useState(false);
@@ -17,18 +13,12 @@ function AppHeader(){
     const [textList, setTextList] = useState(false);
     const [textProfile, setTextProfile] = useState(false);
 
-   const onClick = () => {
-    if (!loggedIn){
-        dispatch(actionLinkClickPage('profile'))
-    }
-   }
-
-const markMain = typeMain ? 'primary' : 'secondary' ;
-const markList = typeList ? 'primary' : 'secondary' ;
-const markProfile = typeProfile ? 'primary' : 'secondary'; 
-const textActiveMain = textMain ? '' : 'text_color_inactive';
-const textActiveList = textList ? '' : 'text_color_inactive';
-const textActiveProfile = textProfile ? '' : 'text_color_inactive';
+    const markMain = typeMain ? 'primary' : 'secondary' ;
+    const markList = typeList ? 'primary' : 'secondary' ;
+    const markProfile = typeProfile ? 'primary' : 'secondary'; 
+    const textActiveMain = textMain ? '' : 'text_color_inactive';
+    const textActiveList = textList ? '' : 'text_color_inactive';
+    const textActiveProfile = textProfile ? '' : 'text_color_inactive';
 
 
    useEffect(() => {
@@ -77,7 +67,7 @@ const textActiveProfile = textProfile ? '' : 'text_color_inactive';
                 <Link to = '/' className={styles.logo}>
                     <Logo/>
                 </Link>
-                <Link to = '/profile' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`} onClick = {onClick}>
+                <Link to = '/profile' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
                     <ProfileIcon type={markProfile} />
                     <p className={`pl-2 text text_type_main-default ${textActiveProfile} ${styles.text}`}>Личный кабинет</p>
                 </Link>

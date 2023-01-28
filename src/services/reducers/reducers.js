@@ -8,7 +8,7 @@ import { GET_ALL_INGREDIENTS,
   UPDATE_MAIN_INGREDIENTS, 
   DELETE_CONSTRUCTOR_INGREDIENTS,
   LOADING_INGREDIENT_DETAILS,
-  FINISH_LOADING_INGREDIENT_DETAILS} from "./action"
+  FINISH_LOADING_INGREDIENT_DETAILS} from "../actions/action"
 
 export const initialState = {
     ingredients: [],

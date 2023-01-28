@@ -4,16 +4,13 @@ import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import Ingredients from '../ingredients/ingredients';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { InView, useInView } from "react-intersection-observer";
 import {useSelector} from 'react-redux';
 
 
-function BurgerIngredients({ isOpen, onClose, onClick}){
+function BurgerIngredients({onClick}){
     const [current, setCurrent] = useState('one');
     const data = useSelector(store => store.rootReducer.ingredients);
-    //const watchElPopup = useSelector(store => store.rootReducer.watchIngredients);
 
     const buns = useMemo(() => data.filter((item) => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter((item) => item.type === 'main'), [data]);
@@ -83,19 +80,11 @@ function BurgerIngredients({ isOpen, onClose, onClick}){
                 </div>
                 </InView>
             </div>
-                     
-            {/* {isOpen && (
-            <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
-                <IngredientDetails data = {watchElPopup}/>
-            </Modal>
-            )} */}
         </section>
     )
 }
 
 BurgerIngredients.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
 }
 

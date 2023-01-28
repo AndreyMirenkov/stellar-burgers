@@ -5,12 +5,8 @@ import { REGISTER_USER,
   GET_DATA_ABOUT_PROFILE, 
   UPDATE_PROFILE_DATA,
   FORGOT_PASSWORD,
-  RESET_PASSWORD, 
-  LINK_TO_CLICK_PAGE, 
-  RESET_LINK_TO_CLICK_PAGE,
-  CLICK_ON_INGREDIENT,
-  RESET_CLICK_ON_INGREDIENT,
-  RESET_SUCCESS_INPUT_NEW_PASSWORD} from "./auth-actions";
+  RESET_PASSWORD,
+  RESET_SUCCESS_INPUT_NEW_PASSWORD} from "../actions/auth-actions";
 
 
 export const initialState = {
@@ -22,13 +18,6 @@ export const initialState = {
         refreshToken: null,
         time: null
     },
-    linkToPage: {
-        transition: false,
-        link: null
-      },
-    linkForPopup: {
-        clickOnIngredient: false
-      },
     openResetPassword: {
       inputEmailOnForgotPage: false
     },
@@ -116,40 +105,6 @@ export const authReducer = (state = initialState, action) => {
             inputEmailOnForgotPage: false
           },
           resetPassword: true,
-        }
-      }
-      case LINK_TO_CLICK_PAGE: {
-        return {
-          ...state,
-            linkToPage: {
-              transition: true,
-              link: action.link
-            },
-        }
-      }
-      case RESET_LINK_TO_CLICK_PAGE: {
-        return {
-          ...state,
-            linkToPage: {
-              transition: false,
-              link: null,
-            },
-        }
-      }
-      case CLICK_ON_INGREDIENT: {
-        return {
-          ...state,
-          linkForPopup: {
-            clickOnIngredient: true,
-          },
-        }
-      }
-      case RESET_CLICK_ON_INGREDIENT: {
-        return {
-          ...state,
-          linkForPopup: {
-            clickOnIngredient: false,
-          },
         }
       }
       case RESET_SUCCESS_INPUT_NEW_PASSWORD: {

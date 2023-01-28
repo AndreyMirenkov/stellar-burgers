@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState ,useEffect } from 'react';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import styles from  './app.module.css';
 import AppHeader from '../app-header/app-header'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -11,16 +11,15 @@ import ForgotPassword from '../../pages/forgot-password/forgot-password';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
 import {useDispatch, useSelector} from 'react-redux'
-import {getApiIngredients, getApiNumberOrder} from '../../services/actionCreators';
-import { watchIngredient, deleteWatchIngredient, deleteConstructorIngredients } from '../../services/actionCreators';
+import {getApiIngredients, getApiNumberOrder} from '../../services/actions/actionCreators';
+import { watchIngredient, deleteWatchIngredient, deleteConstructorIngredients } from '../../services/actions/actionCreators';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import Preloader from '../preloader/preloader';
 import ProtectedRoute from '../ProtectedRoute.js/ProtectedRoute';
 import { apiRegisterUser, apiLoginUser, apiUpdateProfile, 
   apiLogoutUser, apiGetProfile, apiUpdateToken, apiForgotPassword, 
-  apiResetPassword, actionResetLinkClickPage, actionClickOnIngredient, 
-  actionResetClickOnIngredient, actionResetSuccessNewPassword } from '../../services/auth-actionCreators';
+  apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
 import { deleteCookie } from '../../utils/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
@@ -39,12 +38,11 @@ function App() {
   const timeToken = useSelector(store => store.authReducer.token.time);
   const token = useSelector(store => store.authReducer.token.refreshToken);
   const loggedIn = useSelector(store => store.authReducer.loggedIn);
-  const transition = useSelector(store => store.authReducer.linkToPage.transition)
-  const transitionLink = useSelector(store => store.authReducer.linkToPage.link);
-  const clickOnIngredient = useSelector(store => store.authReducer.linkForPopup.clickOnIngredient);
   const openResetPassword = useSelector(store => store.authReducer.openResetPassword.inputEmailOnForgotPage)
   const successResetPassword = useSelector(store => store.authReducer.resetPassword);
   const history = useHistory();
+  let location = useLocation();
+  let background = location.state && location.state.background;
 
   const opacity = openPreloader ? 0.5 : 1
 
@@ -76,21 +74,6 @@ useEffect(() => {
   }
 },[openResetPassword, history, successResetPassword, dispatch])
 
-// useEffect(() => {
-//   if (loggedIn){
-//       history.push('/')
-//   }
-// },[history,loggedIn])
-
-useEffect(() => {
-  if (loggedIn && transition){
-     setTimeout(() => {
-      history.push(`/${transitionLink}`)
-      dispatch(actionResetLinkClickPage())
-    },50)
-  }
-},[history, transitionLink, loggedIn, transition])
-
   const handleOpenOrderDetails = () => {
     if (loggedIn){
     setOpenPreloader(true);
@@ -106,18 +89,14 @@ useEffect(() => {
 
 
   const handleOpenIngredientDetails = (data) => {
-    dispatch(actionClickOnIngredient())
     dispatch(watchIngredient(data));
     setVisibleIngredientDetails(true);
   }
 
   const handleCloseModal = () => {
-    dispatch(actionResetClickOnIngredient())
     dispatch(deleteWatchIngredient());
     setVisibleOrderDetails(false);
     setVisibleIngredientDetails(false);
-    history.push('/')
-
   }
 
   const handleRegister = (name, email, password) => {
@@ -178,7 +157,8 @@ useEffect(() => {
     <div className="App">
         <AppHeader/>
         <Preloader open = {openPreloader}/>
-        <Switch>
+        <Switch location={background || location}>
+
           <ProtectedRoute exact path = '/register' authorize={false}>
             <Register handleRegister = {handleRegister}/>
           </ProtectedRoute>
@@ -199,27 +179,27 @@ useEffect(() => {
             <Profile getProfile = {getProfile} updateProfile = {updateProfile} logoutProfile = {logoutProfile}/>
           </ProtectedRoute>
          
+          <Route exact path = '/ingredients/:id'>
+              <IngredientDetails/> 
+          </Route>
+
           <Route exact path = '/'>
             <main className={styles.main_content} style = {{opacity}}>
               <DndProvider backend={HTML5Backend}>
-                <BurgerIngredients isOpen = {visibleIngredientDetails} onClose = {handleCloseModal} onClick = {handleOpenIngredientDetails}/>
+                <BurgerIngredients onClick = {handleOpenIngredientDetails}/>
                 <BurgerConstructor isOpen = {visibleOrderDetails} onClose = {handleCloseModal} onClick = {handleOpenOrderDetails}/>
               </DndProvider>
             </main>
           </Route>
 
-          <Route exact path = '/ingredients/:id'>
-            {clickOnIngredient ?
-              <Popup isOpen = {visibleIngredientDetails} onClose = {handleCloseModal} />
-            :
-              <IngredientDetails/> 
-            }
-          </Route>
-
           <Route path = '/*'>
             <NotFound/>
           </Route>
+
         </Switch>
+        {background && <Route path= '/ingredients/:id'>
+          <Popup isOpen = {visibleIngredientDetails} onClose = {handleCloseModal} />
+        </Route>}
     </div>
   );
 }

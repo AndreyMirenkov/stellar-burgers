@@ -10,7 +10,7 @@ import OrderDetails from '../order-details/order-details';
 import {useSelector, useDispatch} from 'react-redux'
 import {useDrop} from 'react-dnd'
 import update from 'immutability-helper';
-import { getConstructorBunsIngredients, getConstructorMainIngredients, updateMainIngredients } from '../../services/actionCreators';
+import { getConstructorBunsIngredients, getConstructorMainIngredients, updateMainIngredients } from '../../services/actions/actionCreators';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { v4 as uuidv4 } from 'uuid';
@@ -138,7 +138,6 @@ const moveIngredient = useCallback((dragIndex, hoverIndex) => {
             </Button>
             </div>
 
-          
 
             {isOpen && (
                 <Modal onClose={onClose} heading = {false}>

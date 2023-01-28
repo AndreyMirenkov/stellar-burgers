@@ -5,7 +5,7 @@ import { registerUser,
     updateProfile, 
     updateToken, 
     forgotPassword, 
-    resetPassword } from "../utils/authApi";
+    resetPassword } from "../../utils/authApi";
 
 import { REGISTER_USER, 
     LOGIN_USER,
@@ -14,14 +14,10 @@ import { REGISTER_USER,
     GET_DATA_ABOUT_PROFILE, 
     UPDATE_PROFILE_DATA,
     FORGOT_PASSWORD,
-    RESET_PASSWORD, 
-    LINK_TO_CLICK_PAGE, 
-    RESET_LINK_TO_CLICK_PAGE,
-    CLICK_ON_INGREDIENT,
-    RESET_CLICK_ON_INGREDIENT,
+    RESET_PASSWORD,
     RESET_SUCCESS_INPUT_NEW_PASSWORD} from "./auth-actions";
 
-    import { setCookie } from '../utils/cookie';
+    import { setCookie } from '../../utils/cookie';
 
 export const actionRegisterUser = (name, email, accessToken, refreshToken) => {
     return {
@@ -84,31 +80,6 @@ export const actionResetPassword = () => {
     return {
         type: RESET_PASSWORD,
     }
-}
-
-export const actionLinkClickPage = (link) => {
-    return {
-        type: LINK_TO_CLICK_PAGE,
-        link,
-    }
-}
-
-export const actionResetLinkClickPage = () => {
-    return {
-        type: RESET_LINK_TO_CLICK_PAGE,
-    }
-}
-
-export const actionClickOnIngredient = () => {
-  return {
-    type: CLICK_ON_INGREDIENT,
-  }
-}
-
-export const actionResetClickOnIngredient = () => {
-  return {
-    type: RESET_CLICK_ON_INGREDIENT,
-  }
 }
 
 export const actionResetSuccessNewPassword = () => {

@@ -3,7 +3,7 @@ import styles from './ingredients-category.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux'
-import { deleteConstructorMainIngredient } from "../../services/actionCreators";
+import { deleteConstructorMainIngredient } from "../../services/actions/actionCreators";
 import {useDrag, useDrop} from 'react-dnd'
 
 function IngredientsCategory({id, text, price, thumbnail, index, moveIngredient, keyDelete}){

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {useEffect, useState} from 'react';
 import { useDispatch } from "react-redux";
-import { loadingIngredientDetails, finishLoadingIngredientDetails } from "../../services/actionCreators";
+import { loadingIngredientDetails, finishLoadingIngredientDetails } from "../../services/actions/actionCreators";
 import notFound from '../../images/notFound.svg';
 
 function IngredientDetails(){

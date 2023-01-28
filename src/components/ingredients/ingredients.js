@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import {dataPropTypes} from '../../utils/prop-types';
 import {useDrag} from 'react-dnd';
 import {useSelector} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Ingredients({element, onClick, type}){
     const [quantity, setQuantity] = useState(0);
     const ingredientsInBurger = useSelector(store => store.rootReducer.ingredientsInConstructor);
     const id = element._id
+    let location = useLocation();
 
     const [{opacity}, ref] = useDrag({
         type: type,
@@ -33,7 +34,7 @@ useEffect(() => {
 }, [id, ingredientsInBurger, type])
 
     return(
-        <Link to ={'/ingredients/'+ id} className = {styles.link}>
+        <Link to={{pathname: `/ingredients/${id}`, state: { background: location }}} className = {styles.link}>
         <div className = {styles.element} style = {{opacity: opacity}}>
             <div ref={ref}>
             <img className = 'mb-1 ml-4 mr-4' src = {element.image} alt = 'картинка ингредиента' onClick={() => onClick(element)}/>

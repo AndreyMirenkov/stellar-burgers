@@ -1,4 +1,4 @@
-import { getInfo, getNumberOrder } from '../utils/api';
+import { getInfo, getNumberOrder } from '../../utils/api';
 
 import { GET_ALL_INGREDIENTS, 
     GET_CONSTRUCTOR_BUNS_INGREDIENTS, 

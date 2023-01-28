@@ -1,17 +1,10 @@
 import { getCookie } from "./cookie";
-export const BASE_URL = 'https://norma.nomoreparties.space/api';
+import { BASE_URL } from "./api";
+import { checkResponse } from "./api";
 
 const headers = {
     'Accept': 'application/json',
     'Content-type': 'application/json',
-}
-
-const checkResponse = (res) => {
-    if (res.ok){
-        return res.json()
-    } else {
-        return Promise.reject(res.status);
-    }
 }
 
 export const registerUser = ({name, email, password}) => {
