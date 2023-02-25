@@ -1,4 +1,4 @@
-import { getInfo, getNumberOrder } from '../utils/api';
+import { getInfo, getNumberOrder } from '../../utils/api';
 
 import { GET_ALL_INGREDIENTS, 
     GET_CONSTRUCTOR_BUNS_INGREDIENTS, 
@@ -8,7 +8,9 @@ import { GET_ALL_INGREDIENTS,
     DELETE_WATCH_INGREDIENTS, 
     GET_AND_UPDATE_ORDER, 
     UPDATE_MAIN_INGREDIENTS, 
-    DELETE_CONSTRUCTOR_INGREDIENTS} from "./action"
+    DELETE_CONSTRUCTOR_INGREDIENTS,
+    LOADING_INGREDIENT_DETAILS,
+    FINISH_LOADING_INGREDIENT_DETAILS} from "./action"
 
 export const getIngredients = (items) => {
     return {
@@ -70,6 +72,18 @@ export const updateMainIngredients = (data) => {
 export const deleteConstructorIngredients = () => {
     return {
         type: DELETE_CONSTRUCTOR_INGREDIENTS
+    }
+}
+
+export const loadingIngredientDetails = () => {
+    return {
+        type: LOADING_INGREDIENT_DETAILS
+    }
+}
+
+export const finishLoadingIngredientDetails = () => {
+    return {
+        type: FINISH_LOADING_INGREDIENT_DETAILS
     }
 }
 
