@@ -36,7 +36,7 @@ const infoOrderName = useSelector((store: any) => store.rootReducer.order.name);
 const mainIngredients: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
 const bunsIngredients = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
 const priceBuns = useMemo(() => bunsIngredients.map((item: TIngredient)=> item.price), [bunsIngredients])
-const sumBuns = useMemo(() => priceBuns * 2,[]);
+const sumBuns = useMemo(() => priceBuns * 2,[priceBuns]);
 const sumMain = useMemo(() => priceArrayMain.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArrayMain]);
 const sum = useMemo(() => sumMain + sumBuns, [sumMain, sumBuns]);
 

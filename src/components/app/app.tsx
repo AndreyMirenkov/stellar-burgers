@@ -167,19 +167,19 @@ useEffect(() => {
         <Preloader open = {openPreloader}/>
         <Switch location={background || location}>
 
-          <ProtectedRoute exact path = '/register' authorize={false}>
+          <ProtectedRoute path = '/register' authorize={false}>
             <Register handleRegister = {handleRegister}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/login' authorize={false}>
+          <ProtectedRoute path = '/login' authorize={false}>
             <Login handleLogin = {handleLogin}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/forgot-password' authorize={false}>
+          <ProtectedRoute path = '/forgot-password' authorize={false}>
             <ForgotPassword forgotPassword = {forgotPassword}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/reset-password' authorize={false}>
+          <ProtectedRoute path = '/reset-password' authorize={false}>
             {openResetPassword || successResetPassword ?  <ResetPassword resetPassword = {resetPassword}/> : <Redirect to = '/forgot-password'/>}
           </ProtectedRoute>
 
