@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC, SyntheticEvent} from "react";
 import styles from './profile.module.css';
 import {useState, useEffect} from 'react';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -6,22 +6,27 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 
-function Profile({getProfile, updateProfile, logoutProfile}) {
+type TProfile = {
+    updateProfile: (inputName: string, inputEmail: string) => void;
+    logoutProfile: () => void;
+}
+
+const Profile:FC<TProfile> = ({updateProfile, logoutProfile}) => {
 
     const location = useLocation()
-    const name = useSelector(store => store.authReducer.name);
-    const email = useSelector(store => store.authReducer.email)
+    const name: string = useSelector((store: any) => store.authReducer.name);
+    const email: string = useSelector((store: any) => store.authReducer.email)
     const [inputName, setInputName] = useState(name);
     const [inputEmail, setInputEmail] = useState(email);
     const [inputPassword, setInputPassword] = useState('');
-    const [disabledInputName, setDisabledInputName] = useState(true);
+    const [disabledInputName, setDisabledInputName] = useState<boolean>(true);
 
     useEffect(() => {
         setInputName(name);
         setInputEmail(email);
     },[name, email])
 
-    const handleClick = (e) => {
+    const handleClick = (e: SyntheticEvent) => {
         e.preventDefault();
         setDisabledInputName(true);
         updateProfile(inputName, inputEmail);
@@ -29,7 +34,7 @@ function Profile({getProfile, updateProfile, logoutProfile}) {
         setInputEmail(email)
     }
 
-    const handleReturn = (e) => {
+    const handleReturn = (e: SyntheticEvent) => {
         e.preventDefault();
         setDisabledInputName(true);
         setInputName(name);
@@ -111,7 +116,6 @@ function Profile({getProfile, updateProfile, logoutProfile}) {
     )
 }
 Profile.propTypes = {
-    getProfile: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
     logoutProfile: PropTypes.func.isRequired,
 }

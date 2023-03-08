@@ -1,16 +1,29 @@
-import React from "react";
+import React, {FC,SyntheticEvent, useState} from "react";
 import styles from './register.module.css';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from "react-router-dom";
-import { useForm } from "../../hooks/useForm";
 import PropTypes from 'prop-types';
 
-function Register({handleRegister}) {
+type TRegister = {
+    handleRegister: (name: string, email: string, password: string) => void
+}
 
-const {values, handleChange, setValues} = useForm({name: '', email: '', password: ''});
+type TValues = {
+    email: string;
+    password: string;
+    name: string;
+  }
+
+const Register:FC<TRegister> = ({handleRegister}) => {
+
+const [values, setValues] = useState<TValues>({name: '', email: '', password: ''});
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value, name} = event.target;
+        setValues({...values, [name]: value});
+      };
 
 
-const handleClick = (e) => {
+const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
     handleRegister(values.name, values.email, values.password)
 }

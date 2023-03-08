@@ -1,15 +1,27 @@
-import React from "react";
+import React, {useState, FC, SyntheticEvent} from "react";
 import styles from './forgot-password.module.css';
 import {EmailInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { useForm } from "../../hooks/useForm";
 
-function ForgotPassword({forgotPassword}) {
+type TForgotPassword = {
+    forgotPassword: (email: string) => void
+}
 
-    const {values, handleChange, setValues} = useForm({email: ''});
+type TValues = {
+    email: string;
+  }
 
-    const handleForgotPassword = (e) => {
+
+const ForgotPassword: FC<TForgotPassword> = ({forgotPassword}) => {
+
+    const [values, setValues] = useState<TValues>({email: ''});
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value, name} = event.target;
+        setValues({...values, [name]: value});
+      };
+
+    const handleForgotPassword = (e: SyntheticEvent) => {
         e.preventDefault();
         forgotPassword(values.email);
     }

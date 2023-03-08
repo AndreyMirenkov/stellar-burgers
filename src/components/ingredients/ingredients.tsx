@@ -1,15 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, FC} from 'react';
 import styles from './ingredients.module.css';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
-import {dataPropTypes} from '../../utils/prop-types';
 import {useDrag} from 'react-dnd';
 import {useSelector} from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import {TIngredient} from '../../utils/typescriptTypes/ingredient';
 
-function Ingredients({element, onClick, type}){
+type TElement = {
+    element: TIngredient
+    onClick: (element: TIngredient) => void;
+    type: 'buns' | 'sauce' | 'main';
+}
+
+type TItemIngredient = {
+    details: TIngredient;
+    key: string;
+}
+
+const Ingredients: FC<TElement> = ({element, onClick, type}) => {
     const [quantity, setQuantity] = useState(0);
-    const ingredientsInBurger = useSelector(store => store.rootReducer.ingredientsInConstructor);
+    const ingredientsInBurger = useSelector((store: any) => store.rootReducer.ingredientsInConstructor);
     const id = element._id
     let location = useLocation();
 
@@ -23,9 +33,9 @@ function Ingredients({element, onClick, type}){
 
 useEffect(() => {
     if(type === 'main'){
-        setQuantity(() => ingredientsInBurger.ingredients.filter((item) => item.details._id === id).length);
+        setQuantity(() => ingredientsInBurger.ingredients.filter((item: TItemIngredient) => item.details._id === id).length);
     } else {
-        if (ingredientsInBurger.buns.filter((item) => item._id === id).length === 0){
+        if (ingredientsInBurger.buns.filter((item: TIngredient) => item._id === id).length === 0){
             setQuantity(0);
         } else {
             setQuantity(2);
@@ -48,12 +58,6 @@ useEffect(() => {
         </div>
         </Link>
     )
-}
-
-Ingredients.propTypes = {
-    element: dataPropTypes.isRequired,
-    onClick: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired,
 }
 
 export default Ingredients;

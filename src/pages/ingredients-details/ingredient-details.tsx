@@ -6,14 +6,16 @@ import {useEffect, useState} from 'react';
 import { useDispatch } from "react-redux";
 import { loadingIngredientDetails, finishLoadingIngredientDetails } from "../../services/actions/actionCreators";
 import notFound from '../../images/notFound.svg';
+import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 
 function IngredientDetails(){
     const dispatch  = useDispatch();
-    const ingredientId = useParams();
-    const ingredients = useSelector(store => store.rootReducer.ingredients);
-    const [ingredient, setIngredient] = useState([])
+    const ingredientId: any = useParams();
+    const ingredients = useSelector((store: any) => store.rootReducer.ingredients);
+    const [ingredient, setIngredient] = useState<Array<TIngredient>>([])
     const [loading, setLoading] = useState(false);  
     const [notFoundIngredient, setNotFoundIngredient] = useState(false)
+    const [textNotFoundIngredient, textSetNotFoundIngredient] = useState('');
 
     const opacity = notFoundIngredient ? 1 : 0
 
@@ -21,13 +23,13 @@ function IngredientDetails(){
         setNotFoundIngredient(false);
         dispatch(loadingIngredientDetails());
         if (ingredients.length !== 0){
-        const data = ingredients.filter(el => el._id === ingredientId.id)
+        const data = ingredients.filter((el: TIngredient) => el._id === ingredientId.id)
             if (data.length !== 0){
             setIngredient(data)
             } else {
                 setLoading(false);
                 setNotFoundIngredient(true);
-                setNotFoundIngredient('Неправильный id ингредиента. Введите правильный id и попробуйте ещё раз');
+                textSetNotFoundIngredient('Неправильный id ингредиента. Введите правильный id и попробуйте ещё раз');
                 dispatch(finishLoadingIngredientDetails());
             }
         }
@@ -37,7 +39,7 @@ function IngredientDetails(){
     useEffect(() => {
         if(ingredient.length !==0){
             setLoading(true);
-            setNotFoundIngredient('')
+            textSetNotFoundIngredient('')
             dispatch(finishLoadingIngredientDetails());
         }
     },[ingredient])
@@ -73,7 +75,7 @@ function IngredientDetails(){
         :
         <div className={styles.notFound} style = {{opacity: opacity}}>
             <img src = {notFound} className = {styles.notfound_image} alt = 'Картинка Not Found'/>
-            <h2 className={`text text_type_main-medium`}>{notFoundIngredient}</h2>
+            <h2 className={`text text_type_main-medium`}>{textNotFoundIngredient}</h2>
         </div>
         }
         </>        

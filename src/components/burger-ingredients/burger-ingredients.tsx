@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, FC } from 'react'
 import {useState, useMemo} from 'react'
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import Ingredients from '../ingredients/ingredients';
-import { InView, useInView } from "react-intersection-observer";
+import { InView } from "react-intersection-observer";
 import {useSelector} from 'react-redux';
+import { TIngredient } from '../../utils/typescriptTypes/ingredient';
 
+type TBurgerIngredient = {
+    onClick: (element: TIngredient) => void
+}
 
-function BurgerIngredients({onClick}){
+const BurgerIngredients: FC<TBurgerIngredient> = ({onClick}) => {
     const [current, setCurrent] = useState('one');
-    const data = useSelector(store => store.rootReducer.ingredients);
+    const data = useSelector((store: any) => store.rootReducer.ingredients);
 
-    const buns = useMemo(() => data.filter((item) => item.type === 'bun'), [data]);
-    const mains = useMemo(() => data.filter((item) => item.type === 'main'), [data]);
-    const sauces = useMemo(() => data.filter((item) => item.type === 'sauce'), [data]);
+    const buns = useMemo(() => data.filter((item: TIngredient) => item.type === 'bun'), [data]);
+    const mains = useMemo(() => data.filter((item: TIngredient) => item.type === 'main'), [data]);
+    const sauces = useMemo(() => data.filter((item: TIngredient) => item.type === 'sauce'), [data]);
 
     const [refBuns, setInViewBuns] = useState(false);
     const [refMain, setInViewMain] = useState(false);
@@ -36,7 +40,7 @@ function BurgerIngredients({onClick}){
             <h2 className={`mt-10 mb-5 text text_type_main-large ${styles.text_header}`}>Соберите бургер</h2>
             <div className={`mb-10 ${styles.nav}`}>
                 <a className={styles.nav__text} href='#bun'>
-                    <Tab value="one" href = '#1' active={current === 'one'} onClick={setCurrent}>
+                    <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                         Булки
                     </Tab>
                 </a>
@@ -46,7 +50,7 @@ function BurgerIngredients({onClick}){
                     </Tab>
                 </a>
                 <a className={styles.nav__text} href = '#main'>
-                    <Tab value="three" href = '#3' active={current === 'three'} onClick={setCurrent}>
+                    <Tab value="three" active={current === 'three'} onClick={setCurrent}>
                         Начинка
                     </Tab>  
                 </a>
@@ -55,7 +59,7 @@ function BurgerIngredients({onClick}){
                 <InView onChange = {setInViewBuns}>
                 <h3 id = 'bun' className={`mb-6 text text_type_main-medium ${styles.ingredients__chapter}`}>Булки</h3>
                 <div className={styles.ingredients_list}>
-                    {buns.map((el) => (
+                    {buns.map((el: TIngredient) => (
                         <Ingredients key = {el._id} element = {el} onClick = {onClick} type = 'buns'/>
                     ))
                     }
@@ -64,7 +68,7 @@ function BurgerIngredients({onClick}){
                 <InView onChange = {setInViewMain}>
                 <h3 id = 'sauce' className={`mt-10 mb-6 text text_type_main-medium ${styles.ingredients__chapter}`}>Соусы</h3>
                 <div className={styles.ingredients_list}>
-                    {sauces.map((el) => (
+                    {sauces.map((el: TIngredient) => (
                         <Ingredients key = {el._id} element = {el} onClick = {onClick} type = 'main'/>
                     ))
                 }
@@ -73,7 +77,7 @@ function BurgerIngredients({onClick}){
                 <InView onChange = {setInViewSause}>
                 <h3 id = 'main' className={`mt-10 mb-6 text text_type_main-medium ${styles.ingredients__chapter}`}>Начинка</h3>
                 <div className={styles.ingredients_list}>
-                    {mains.map((el) => (
+                    {mains.map((el: TIngredient) => (
                         <Ingredients key = {el._id} element = {el} onClick = {onClick} type = 'main'/>
                     ))
                     }

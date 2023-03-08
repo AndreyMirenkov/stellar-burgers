@@ -1,16 +1,28 @@
-import React from "react";
+import React, {FC, SyntheticEvent, useState} from "react";
 import styles from './login.module.css';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { useForm } from "../../hooks/useForm";
+// import { useForm } from "../../utils/hooks/useForm";
 
-function Login({handleLogin}) {
+type TLogin = {
+    handleLogin: (email: string, password: string) => void
+}
 
-    const {values, handleChange, setValues} = useForm({email: '', password: ''});
+type TValues = {
+    email: string;
+    password: string;
+  }
 
+const Login: FC<TLogin> = ({handleLogin}) => {
 
-    const handleClick = (e) => {
+    const [values, setValues] = useState<TValues>({email: '', password: ''});
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value, name} = event.target;
+        setValues({...values, [name]: value});
+      };
+
+    const handleClick = (e: SyntheticEvent) => {
         e.preventDefault();
         handleLogin(values.email, values.password);
     }

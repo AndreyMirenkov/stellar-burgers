@@ -1,16 +1,25 @@
-import React, {useRef} from "react";
+import React, {useRef, FC} from "react";
 import styles from './ingredients-category.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux'
 import { deleteConstructorMainIngredient } from "../../services/actions/actionCreators";
 import {useDrag, useDrop} from 'react-dnd'
 
-function IngredientsCategory({id, text, price, thumbnail, index, moveIngredient, keyDelete}){
+type TIngredientsCategory = {
+  id: string;
+  text: string;
+  price: number;
+  thumbnail: string;
+  index: number;
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void;
+  keyDelete: number;
+}
+
+const IngredientsCategory:FC<TIngredientsCategory> = ({id, text, price, thumbnail, index, moveIngredient, keyDelete}) => {
 
 const dispatch = useDispatch();
 
-    const ref = useRef(null)
+    const ref = useRef<HTMLLIElement>(null)
     const [{ handlerId }, drop] = useDrop({
       accept: 'mains',
       collect(monitor) {
@@ -18,20 +27,20 @@ const dispatch = useDispatch();
           handlerId: monitor.getHandlerId(),
         }
       },
-      hover(item, monitor) {
+      hover(item: any, monitor) {
         if (!ref.current) {
           return
         }
-        const dragIndex = item.index
-        const hoverIndex = index
+        const dragIndex: number = item.index
+        const hoverIndex: number = index
         if (dragIndex === hoverIndex) {
           return
         }
-        const hoverBoundingRect = ref.current?.getBoundingClientRect()
-        const hoverMiddleY =
+        const hoverBoundingRect: any = ref.current?.getBoundingClientRect()
+        const hoverMiddleY: number =
           (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
         const clientOffset = monitor.getClientOffset()
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top
+        const hoverClientY: number = clientOffset!.y - hoverBoundingRect.top
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
           return
         }
@@ -69,16 +78,6 @@ const dispatch = useDispatch();
             />
         </li>
     )
-}
-
-IngredientsCategory.propTypes = {
-    id: PropTypes.string,
-    text: PropTypes.string,
-    price: PropTypes.number,
-    thumbnail: PropTypes.string,
-    index: PropTypes.number,
-    moveIngredient: PropTypes.func.isRequired,
-    keyDelete: PropTypes.string,
 }
 
 export default IngredientsCategory;

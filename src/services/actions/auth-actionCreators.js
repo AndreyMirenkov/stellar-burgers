@@ -5,7 +5,7 @@ import { registerUser,
     updateProfile, 
     updateToken, 
     forgotPassword, 
-    resetPassword } from "../../utils/authApi";
+    resetPassword } from "../../utils/Api/authApi";
 
 import { REGISTER_USER, 
     LOGIN_USER,
@@ -17,7 +17,7 @@ import { REGISTER_USER,
     RESET_PASSWORD,
     RESET_SUCCESS_INPUT_NEW_PASSWORD} from "./auth-actions";
 
-    import { setCookie } from '../../utils/cookie';
+    import { setCookie } from '../../utils/cookie/cookie';
 
 export const actionRegisterUser = (name, email, accessToken, refreshToken) => {
     return {
