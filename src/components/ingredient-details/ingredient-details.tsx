@@ -1,9 +1,12 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from './ingredient-details.module.css';
-import PropTypes from 'prop-types';
-import {dataPropTypes} from '../../utils/prop-types'
+import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 
-function IngredientDetails({data}){
+type TIngredientDetails = {
+    data: TIngredient;
+}
+
+const IngredientDetails: FC<TIngredientDetails> = ({data}) => {
       
     return (
         <div className={styles.content}>
@@ -29,10 +32,6 @@ function IngredientDetails({data}){
             </ul>
         </div>
     );
-}
-
-IngredientDetails.propTypes = {
-    data: dataPropTypes.isRequired,
 }
 
 export default IngredientDetails;

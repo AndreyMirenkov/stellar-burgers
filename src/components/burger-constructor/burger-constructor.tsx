@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, FC } from 'react';
 import { useMemo } from 'react';
 import styles from './burger-constructor.module.css';
-import {ConstructorElement, CurrencyIcon, Button, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientsCategory from '../ingredients-category/ingredients-category';
 import PropTypes from 'prop-types';
-import {dataPropTypes} from '../../utils/prop-types'
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import {useSelector, useDispatch} from 'react-redux'
@@ -14,18 +13,30 @@ import { getConstructorBunsIngredients, getConstructorMainIngredients, updateMai
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { v4 as uuidv4 } from 'uuid';
+import { TIngredient } from '../../utils/typescriptTypes/ingredient';
 
+type TBurgerConstructor = {
+    isOpen: boolean;
+    onClose: () => void;
+    onClick: () => void;
+}
 
-function BurgerConstructor({isOpen, onClose, onClick}){
+type TMainIngredient = {
+    details: TIngredient;
+    key: number;
+}
+
+const BurgerConstructor: FC<TBurgerConstructor> = ({isOpen, onClose, onClick}) => {
     
 const dispatch = useDispatch();
-const [ingredients, setIngredients] = useState([]);
-const [priceArrayMain, setPriceArrayMain] = useState([]); 
-const infoOrder = useSelector(store => store.rootReducer.order);
-const mainIngredients = useSelector(store => store.rootReducer.ingredientsInConstructor.ingredients);
-const bunsIngredients = useSelector(store => store.rootReducer.ingredientsInConstructor.buns);
-const priceBuns = useMemo(() => bunsIngredients.map(item => item.price), [bunsIngredients])
-const sumBuns = useMemo(() => priceBuns * 2)
+const [ingredients, setIngredients] = useState<Array<TMainIngredient>>([]);
+const [priceArrayMain, setPriceArrayMain] = useState<Array<number>>([]); 
+const infoOrderNumber = useSelector((store: any) => store.rootReducer.order.number);
+const infoOrderName = useSelector((store: any) => store.rootReducer.order.name);
+const mainIngredients: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
+const bunsIngredients = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
+const priceBuns = useMemo(() => bunsIngredients.map((item: TIngredient)=> item.price), [bunsIngredients])
+const sumBuns = useMemo(() => priceBuns * 2,[priceBuns]);
 const sumMain = useMemo(() => priceArrayMain.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArrayMain]);
 const sum = useMemo(() => sumMain + sumBuns, [sumMain, sumBuns]);
 
@@ -79,7 +90,7 @@ useEffect(() => {
     dispatch(updateMainIngredients(ingredients))
 }, [ingredients]);
 
-const moveIngredient = useCallback((dragIndex, hoverIndex) => {
+const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
     setIngredients((prevCards) =>
         update(prevCards, {
           $splice: [
@@ -141,7 +152,7 @@ const moveIngredient = useCallback((dragIndex, hoverIndex) => {
 
             {isOpen && (
                 <Modal onClose={onClose} heading = {false}>
-                    <OrderDetails infoOrder={infoOrder}/>
+                    <OrderDetails number = {infoOrderNumber} name = {infoOrderName} />
                 </Modal>
             )}
         </section>

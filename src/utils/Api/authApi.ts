@@ -1,13 +1,21 @@
-import { getCookie } from "./cookie";
+import { getCookie } from "../cookie/cookie";
 import { BASE_URL } from "./api";
 import { checkResponse } from "./api";
+
+type TUser = {
+  name?: string;
+  email?: string;
+  password?: string; 
+  token?: string
+}
 
 const headers = {
     'Accept': 'application/json',
     'Content-type': 'application/json',
 }
 
-export const registerUser = ({name, email, password}) => {
+
+export const registerUser = ({name, email, password}: TUser) => {
     return fetch(`${BASE_URL}/auth/register`, {
         method: 'POST',
         headers: headers,
@@ -19,7 +27,7 @@ export const registerUser = ({name, email, password}) => {
     }).then(checkResponse);
 } 
 
-export const loginUser = ({email, password}) => {
+export const loginUser = ({email, password}: TUser) => {
     return fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: headers,
@@ -30,7 +38,7 @@ export const loginUser = ({email, password}) => {
     }).then(checkResponse);
 }
 
-export const logoutUser = (token) => {
+export const logoutUser = (token: TUser) => {
     return fetch(`${BASE_URL}/auth/logout`, {
         method: 'POST',
         headers: headers,
@@ -53,7 +61,7 @@ export const getProfile = () => {
     }).then(checkResponse);
 }
 
-export const updateProfile = ({name, email}) => {
+export const updateProfile = ({name, email}: TUser) => {
     return fetch(`${BASE_URL}/auth/user`, {
         method: 'PATCH',
         mode: 'cors',
@@ -70,7 +78,7 @@ export const updateProfile = ({name, email}) => {
     }).then(checkResponse);
 }
 
-export const updateToken = (token) => {
+export const updateToken = (token: TUser) => {
     return fetch(`${BASE_URL}/auth/token`, {
         method: 'POST',
         mode: 'cors',
@@ -83,17 +91,17 @@ export const updateToken = (token) => {
     }).then(checkResponse);
 }
 
-export const forgotPassword = (email) => {
+export const forgotPassword = (email: TUser) => {
     return fetch(`${BASE_URL}/password-reset`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
             email
-       })
+       })  
     }).then(checkResponse);
 }
 
-export const resetPassword = ({password, token}) => {
+export const resetPassword = ({password, token}: TUser) => {
     return fetch(`${BASE_URL}/password-reset/reset`, {
         method: 'POST',
         headers: headers,

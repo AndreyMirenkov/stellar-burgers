@@ -16,32 +16,38 @@ import { watchIngredient, deleteWatchIngredient, deleteConstructorIngredients } 
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import Preloader from '../preloader/preloader';
-import ProtectedRoute from '../ProtectedRoute.js/ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { apiRegisterUser, apiLoginUser, apiUpdateProfile, 
   apiLogoutUser, apiGetProfile, apiUpdateToken, apiForgotPassword, 
   apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
-import { deleteCookie } from '../../utils/cookie';
+import { deleteCookie } from '../../utils/cookie/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
 import Popup from '../Popup/popup';
+import { TIngredient } from '../../utils/typescriptTypes/ingredient';
+
+type TMainIngredient = {
+  details: TIngredient;
+  key: number;
+}
 
 function App() {
   const [visibleOrderDetails, setVisibleOrderDetails] = useState(false);
   const [visibleIngredientDetails, setVisibleIngredientDetails] = useState(false);
-  const [orderData, setOrderData] = useState([]);
+  const [orderData, setOrderData] = useState<Array<string>>([]);
   const [openPreloader, setOpenPreloader] = useState(false);
-  const dispatch = useDispatch();
-  const buns = useSelector(store => store.rootReducer.ingredientsInConstructor.buns);
-  const bunsId = buns.map(item => item._id);
-  const main = useSelector(store => store.rootReducer.ingredientsInConstructor.ingredients);
-  const mainId  = main.map(item => item.details._id);
-  const timeToken = useSelector(store => store.authReducer.token.time);
-  const token = useSelector(store => store.authReducer.token.refreshToken);
-  const loggedIn = useSelector(store => store.authReducer.loggedIn);
-  const openResetPassword = useSelector(store => store.authReducer.openResetPassword.inputEmailOnForgotPage)
-  const successResetPassword = useSelector(store => store.authReducer.resetPassword);
+  const dispatch: any = useDispatch();
+  const buns: Array<TIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
+  const bunsId = buns.map((item: TIngredient) => item._id);
+  const main: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
+  const mainId  = main.map(item=> item.details._id);
+  const timeToken = useSelector((store: any) => store.authReducer.token.time);
+  const token = useSelector((store: any) => store.authReducer.token.refreshToken);
+  const loggedIn = useSelector((store: any) => store.authReducer.loggedIn);
+  const openResetPassword = useSelector((store: any) => store.authReducer.openResetPassword.inputEmailOnForgotPage)
+  const successResetPassword = useSelector((store: any) => store.authReducer.resetPassword);
   const history = useHistory();
-  let location = useLocation();
+  let location: any = useLocation();
   let background = location.state && location.state.background;
 
   const opacity = openPreloader ? 0.5 : 1
@@ -55,12 +61,14 @@ useEffect(() => {
 },[dispatch])
 
 useEffect(() => {
-  const token = JSON.parse(localStorage.getItem('refreshToken'))
+  if (localStorage.getItem('refreshToken') !== null) {
+  const token = JSON.parse(localStorage.getItem('refreshToken') || '{}')
   if (token && loggedIn === false){
     dispatch(apiUpdateToken(token))
     setTimeout(() => {
       dispatch(apiGetProfile())},1000);
   }
+}
 },[])
 
 useEffect(() => {
@@ -88,7 +96,7 @@ useEffect(() => {
   }
 
 
-  const handleOpenIngredientDetails = (data) => {
+  const handleOpenIngredientDetails = (data: TIngredient) => {
     dispatch(watchIngredient(data));
     setVisibleIngredientDetails(true);
   }
@@ -99,16 +107,16 @@ useEffect(() => {
     setVisibleIngredientDetails(false);
   }
 
-  const handleRegister = (name, email, password) => {
+  const handleRegister = (name: string, email: string, password: string) => {
     dispatch(apiRegisterUser(name, email, password));
   }
 
-  const handleLogin = (email, password) => {
+  const handleLogin = (email: string, password: string) => {
     dispatch(apiLoginUser(email, password));
   }
 
   const getProfile = () => {
-    const nowTime = new Date()
+    const nowTime: any = new Date()
     setOpenPreloader(true);
     if (timeToken && nowTime - timeToken > 1200000){
       dispatch(apiUpdateToken(token))
@@ -121,8 +129,8 @@ useEffect(() => {
     }
   }
 
-  const updateProfile = (name, email) => {
-    const nowTime = new Date()
+  const updateProfile = (name: string, email: string) => {
+    const nowTime: any = new Date()
     setOpenPreloader(true);
     if (nowTime - timeToken > 1200000){
       dispatch(apiUpdateToken(token))
@@ -144,11 +152,11 @@ useEffect(() => {
     },1000)
   }
 
-  const forgotPassword = (email) => {
+  const forgotPassword = (email: string) => {
     dispatch(apiForgotPassword(email));
   }
 
-  const resetPassword = (password, verificationЕoken) => {
+  const resetPassword = (password: string, verificationЕoken: string) => {
     dispatch(apiResetPassword(password, verificationЕoken));
   }
 
@@ -159,24 +167,24 @@ useEffect(() => {
         <Preloader open = {openPreloader}/>
         <Switch location={background || location}>
 
-          <ProtectedRoute exact path = '/register' authorize={false}>
+          <ProtectedRoute path = '/register' authorize={false}>
             <Register handleRegister = {handleRegister}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/login' authorize={false}>
+          <ProtectedRoute path = '/login' authorize={false}>
             <Login handleLogin = {handleLogin}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/forgot-password' authorize={false}>
+          <ProtectedRoute path = '/forgot-password' authorize={false}>
             <ForgotPassword forgotPassword = {forgotPassword}/>
           </ProtectedRoute>
 
-          <ProtectedRoute exact path = '/reset-password' authorize={false}>
+          <ProtectedRoute path = '/reset-password' authorize={false}>
             {openResetPassword || successResetPassword ?  <ResetPassword resetPassword = {resetPassword}/> : <Redirect to = '/forgot-password'/>}
           </ProtectedRoute>
 
           <ProtectedRoute path = '/profile' authorize={true}>
-            <Profile getProfile = {getProfile} updateProfile = {updateProfile} logoutProfile = {logoutProfile}/>
+            <Profile updateProfile = {updateProfile} logoutProfile = {logoutProfile}/>
           </ProtectedRoute>
          
           <Route exact path = '/ingredients/:id'>

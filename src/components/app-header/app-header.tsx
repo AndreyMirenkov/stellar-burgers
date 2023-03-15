@@ -1,17 +1,17 @@
-import React from "react";
+import React, {FC} from "react";
 import { useState, useEffect } from "react";
 import styles from './app-header.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation } from "react-router-dom";
 
-function AppHeader(){
+const AppHeader: FC = () => {
     const location = useLocation();
-    const [typeMain, setTypeMain] = useState(false);
-    const [typeList, setTypeList] = useState(false);
-    const [typeProfile, setTypeProfile] = useState(false);
-    const [textMain, setTextMain] = useState(false);
-    const [textList, setTextList] = useState(false);
-    const [textProfile, setTextProfile] = useState(false);
+    const [typeMain, setTypeMain] = useState<boolean>(false);
+    const [typeList, setTypeList] = useState<boolean>(false);
+    const [typeProfile, setTypeProfile] = useState<boolean>(false);
+    const [textMain, setTextMain] = useState<boolean>(false);
+    const [textList, setTextList] = useState<boolean>(false);
+    const [textProfile, setTextProfile] = useState<boolean>(false);
 
     const markMain = typeMain ? 'primary' : 'secondary' ;
     const markList = typeList ? 'primary' : 'secondary' ;

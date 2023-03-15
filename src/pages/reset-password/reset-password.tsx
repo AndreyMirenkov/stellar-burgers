@@ -1,15 +1,27 @@
-import React from "react";
+import React, {useState, FC, SyntheticEvent} from "react";
 import styles from './reset-password.module.css';
 import {Input, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { useForm } from "../../hooks/useForm";
 
-function ResetPassword({resetPassword}) {
+type TResetPassword = {
+    resetPassword: (password: string, token: string) => void
+}
 
-    const {values, handleChange, setValues} = useForm({password: '', token: ''});
+type TValues = {
+    password: string;
+    token: string;
+  }
 
-    const handleResetPassword = (e) => {
+const ResetPassword: FC<TResetPassword> = ({resetPassword}) => {
+
+    const [values, setValues] = useState<TValues>({password: '', token: ''});
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value, name} = event.target;
+        setValues({...values, [name]: value});
+      };
+
+    const handleResetPassword = (e: SyntheticEvent) => {
         e.preventDefault();
         resetPassword(values.password, values.token);
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import {useEffect, useState} from 'react';
 import styles from './not-found.module.css';
 import pages404_1 from '../../images/pages404(1).svg'
@@ -15,14 +15,14 @@ export const dataImg = [
     pages404_1, pages404_2, pages404_3, pages404_4, pages404_5, pages404_6, pages404_7, pages404_8
 ]
 
-function NotFound() {
+const NotFound = () => {
 
-    const min = 0;
-    const max = 7;
-    const [number, setNumber] = useState(0);
-    const [loading, setLoading] = useState(false)
+    const min: number = 0;
+    const max: number = 7;
+    const [number, setNumber] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const random = (min, max) => {
+    const random = (min: number, max: number) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
@@ -34,18 +34,20 @@ function NotFound() {
         },100)
     },[])
 
-    function buttonClick(e){
+    function buttonClick(e: SyntheticEvent){
         e.preventDefault();
         window.history.back();
     }
 
     return (
-        loading && <div className={styles.content}>
+        loading ? <div className={styles.content}>
             <img src = {dataImg[number]} alt = 'Картинка ингредиента' className={styles.img}/>
             <h2 className={`mb-8 text text_type_main-large ${styles.title}`}>Not Found</h2>
             <h3 className={`mb-8 text text_type_main-large ${styles.title}`}>404</h3>
             <Button htmlType="button" type="primary" size="small" onClick={buttonClick}>Назад</Button>
         </div>
+        :
+        <div></div>
     )
 }
 

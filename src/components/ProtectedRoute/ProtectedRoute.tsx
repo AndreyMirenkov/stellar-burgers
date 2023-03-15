@@ -1,17 +1,22 @@
-import React from "react";
+import React, {FC} from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ authorize, children, ...props }) => {
+type TProtectedRoute = {
+  authorize: boolean;
+  path: string;
+}
 
-    const loggedIn = useSelector(store => store.authReducer.loggedIn)
+const ProtectedRoute:FC<React.PropsWithChildren<TProtectedRoute>> = ({ authorize, children, ...props }) => {
+
+    const loggedIn = useSelector((store: any) => store.authReducer.loggedIn)
 
     const location = useLocation();
       
         if (!authorize && loggedIn) {
-          const { from } = location.state || { from: { pathname: "/" } };
+          const { from }: any = location.state || { from: { pathname: "/" } };
           return (
             <Route {...props}>
               <Redirect to={from} />

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, {FC} from 'react'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector } from "react-redux";
-import PropTypes from 'prop-types';
 
-function Popup({isOpen, onClose}){
+type TPopup = {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const Popup:FC<TPopup> = ({isOpen, onClose}) => {
    
-    const watchElPopup = useSelector(store => store.rootReducer.watchIngredients);
+    const watchElPopup = useSelector((store: any) => store.rootReducer.watchIngredients);
 
     return(
         <>
@@ -18,11 +22,5 @@ function Popup({isOpen, onClose}){
         </>
     )
 }
-
-Popup.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-}
-
 
 export default Popup;

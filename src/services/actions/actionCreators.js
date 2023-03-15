@@ -1,4 +1,4 @@
-import { getInfo, getNumberOrder } from '../../utils/api';
+import { getInfo, getNumberOrder } from '../../utils/Api/api';
 
 import { GET_ALL_INGREDIENTS, 
     GET_CONSTRUCTOR_BUNS_INGREDIENTS, 
@@ -93,6 +93,7 @@ export const getApiIngredients= () => {
         .then(res => {
           if (res && res.success) {
             dispatch(getIngredients(res.data));
+            console.log(res.data)
           } else {
             alert('Возникла ошибка при получении данных с сервера.');
           }
