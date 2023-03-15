@@ -8,7 +8,8 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" alt='HTML' width='60' height='60'/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original-wordmark.svg" alt='CSS' width='60' height='60'/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original-wordmark.svg" alt = 'React' width = '60' height = '60'/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt = 'Redux' width = '60' height = '60'/>          
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt = 'Redux' width = '60' height = '60'/>        
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" alt 'TypeScript' width = '60' height = '60'/>
 </div>          
 
 ## Текущее остояние проекта
