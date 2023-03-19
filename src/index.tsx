@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 );
 
 
-export const store = configurationStore(InitialState);
+export const store = configurationStore();
 
 root.render(
   <React.StrictMode>

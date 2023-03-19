@@ -19,7 +19,7 @@ export const wsActions = {
   onMessage: WS_GET_MESSAGE
 };
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
