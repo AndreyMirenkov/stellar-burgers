@@ -25,6 +25,7 @@ import { apiRegisterUser, apiLoginUser, apiUpdateProfile,
   apiLogoutUser, apiGetProfile, apiUpdateToken, apiForgotPassword, 
   apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
 import { wsWatchOrder, wsDeleteWatchOrder } from '../../services/actions/ws-actionCreators';
+import { wsAuthWatchOrder, wsAuthDeleteWatchOrder } from '../../services/actions/ws-authActionCreators';
 import { deleteCookie } from '../../utils/cookie/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
@@ -112,6 +113,7 @@ useEffect(() => {
   const handleCloseModal = () => {
     dispatch(deleteWatchIngredient());
     dispatch(wsDeleteWatchOrder());
+    dispatch(wsAuthDeleteWatchOrder());
     setVisibleOrderDetails(false);
     setVisibleIngredientDetails(false);
     setVisibleFeedDetails(false);
@@ -173,9 +175,9 @@ useEffect(() => {
     dispatch(apiResetPassword(password, verificationЕoken));
   }
 
-  const handleOpenFeedDetails = (data: TDataWatchOrder) => {
+  const handleOpenFeedDetails = (data: TDataWatchOrder, userOrder: boolean) => {
     setVisibleFeedDetails(true);
-    dispatch(wsWatchOrder(data));
+    userOrder ? dispatch((wsAuthWatchOrder(data))) : dispatch(wsWatchOrder(data));
   }
 
   return (
@@ -207,14 +209,13 @@ useEffect(() => {
           <ProtectedRoute path = '/profile' authorize={true}>
             <Profile updateProfile = {updateProfile} logoutProfile = {logoutProfile}/>
           </ProtectedRoute>
-         
-
-          <Route exact path = '/feed'>
-              <Feed onClick = {handleOpenFeedDetails}/> 
-          </Route>
 
           <Route exact path = '/feed/:id'>
               <FeedId/> 
+          </Route>
+
+          <Route exact path = '/feed'>
+              <Feed onClick = {handleOpenFeedDetails}/> 
           </Route>
 
           <Route exact path = '/ingredients/:id'>

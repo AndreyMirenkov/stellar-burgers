@@ -8,8 +8,17 @@ import notFound from '../../images/notFound.svg';
 import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws-actionCreators';
+import { WSUrl, WSAuthUrl } from "../../utils/const/const";
+import { useLocation } from "react-router-dom";
 
-export const WSUrl = 'wss://norma.nomoreparties.space/orders/all'
+type TArrayKeys = {
+    [key: string]: number;
+}
+
+type TUniqueArray = {
+    ingredient: TIngredient;
+    count: number;
+}
 
 const FeedId = () => {
 
@@ -21,18 +30,29 @@ const FeedId = () => {
     const [loading, setLoading] = useState(false);  
     const [notFoundFeed, setNotFoundFeed] = useState(false)
     const [textNotFoundFeed, textSetNotFoundFeed] = useState('');
-    let array: Array<TIngredient> = []
+    const location = useLocation();
+    let array: Array<TUniqueArray>= []
     let price: number = 0;
+    let webSocketUrl: string = ''
 
     const opacity = notFoundFeed ? 1 : 0
 
+    const counts: TArrayKeys = {};
+    const arrayUniqueIngredients: string[] = []
+
+    if (location.pathname.includes('/feed')){
+        webSocketUrl = WSUrl;
+    } else {
+        webSocketUrl = WSAuthUrl;
+    }
+
     useEffect(() => {
-        dispatch(wsConnectionStart(WSUrl));
+        dispatch(wsConnectionStart(webSocketUrl));
     
         return () => {
             dispatch(wsConnectionClosed());
         }
-    },[dispatch])
+    },[dispatch, webSocketUrl])
     
 
     useEffect(() => {
@@ -52,24 +72,26 @@ const FeedId = () => {
     },[allOrder, feedId])
 
 
-    if (feed.ingredients!== null){
-        feed.ingredients?.forEach(((item: string) =>{ 
+    if (feed.ingredients !== null){
+        feed.ingredients?.forEach((el: string) =>  { 
+            counts[el] = (counts[el] || 0) + 1; 
+        });
+        for (var key in counts) {
+            arrayUniqueIngredients.push(key)
+        }
+        arrayUniqueIngredients.forEach(((item: string) =>{ 
             const data = allIngredients.findIndex((el: TIngredient) => el._id === item)
             if (data>= 0) {
-                array.unshift(allIngredients[data]);
+                array.push({ingredient: allIngredients[data], count: counts[item]})
             }
         }))
     }
-    if (array.length && array[0].type === array[array.length-1].type){
-        array.splice(array.length-1,1);
-    }
-    
 
     array.forEach((item) => {
-        if (item.type === 'bun') {
-            price = price + item.price * 2
+        if (item.ingredient.type === 'bun' && item.count === 1) {
+            price = price + item.ingredient.price * 2
         } else {
-            price = price + item.price
+            price = price + item.ingredient.price * item.count
         }
     })
 
@@ -100,10 +122,10 @@ const FeedId = () => {
             ? 
             array.map((el, index) => (
                 <li className={styles.element} key = {index}>
-                    <img className={styles.image} src = {el.image} alt = 'Картинка'/>
-                    <h3 className={`text text_type_main-default ${styles.name_ingredient}`}>{el.name}</h3>
+                    <img className={styles.image} src = {el.ingredient.image} alt = 'Картинка'/>
+                    <h3 className={`text text_type_main-default ${styles.name_ingredient}`}>{el.ingredient.name}</h3>
                     <div className={styles.price_ingredient}>
-                        <p className={`mr-2 text text_type_digits-default`}>{el.type === 'bun' ? '2 x ' + el.price : '1 x '+el.price}</p>
+                        <p className={`mr-2 text text_type_digits-default`}>{el.ingredient.type === 'bun' && el.count === 1 ? '2 x ' + el.ingredient.price : `${el.count} x ` + el.ingredient.price}</p>
                         <CurrencyIcon type="primary"/>
                     </div>
                 </li>

@@ -121,7 +121,11 @@ export const rootReducer = (state = initialState, action: TMainActions): TMainSt
           ingredientsInConstructor: {
             buns: [],
             ingredients: []
-          }
+          },
+          order: {
+            number: null,
+            name: null,
+          },
         }
       }
       case LOADING_INGREDIENT_DETAILS: {

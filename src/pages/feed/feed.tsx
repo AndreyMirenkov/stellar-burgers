@@ -6,12 +6,13 @@ import { useDispatch } from '../../utils/hooks/hooks';
 import { useSelector } from '../../utils/hooks/hooks';
 import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws-actionCreators';
 import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
+import { WSUrl } from '../../utils/const/const';
 
-export const WSUrl = 'wss://norma.nomoreparties.space/orders/all'
+//export const WSUrl = 'wss://norma.nomoreparties.space/orders/all'
 
 
 type TFeed = {
-    onClick: (data: TDataWatchOrder) => void;
+    onClick: (data: TDataWatchOrder, userOrder: boolean) => void;
 }
 
 const Feed:FC<TFeed> = ({onClick}) => {

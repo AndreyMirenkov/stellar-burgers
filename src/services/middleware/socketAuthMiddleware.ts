@@ -1,34 +1,33 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
-import { TWSAction } from '../actions/ws-actionCreators';
+import { TWSAuthAction } from '../actions/ws-authActionCreators';
 import type { AppDispatch, RootState } from '../../utils/types';
 
-import { WS_CONNECTION_START, 
-    WS_CONNECTION_SUCCESS, 
-    WS_GET_MESSAGE, 
-    WS_SEND_MESSAGE, 
-    WS_CONNECTION_ERROR, 
-    WS_CONNECTION_CLOSED } from '../actions/ws-action';
 
-export const wsActions = {
-  wsInit: WS_CONNECTION_START,
-  wsSendMessage: WS_SEND_MESSAGE,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE,
-};
+import { WS_AUTH_CONNECTION_START, 
+    WS_AUTH_CONNECTION_SUCCESS, 
+    WS_AUTH_GET_MESSAGE, 
+    WS_AUTH_SEND_MESSAGE, 
+    WS_AUTH_CONNECTION_ERROR,
+    WS_AUTH_CONNECTION_CLOSED } from "../actions/ws-authAction";
 
+export const wsAuthActions = {
+wsInit: WS_AUTH_CONNECTION_START,
+  wsSendMessage: WS_AUTH_SEND_MESSAGE,
+  onOpen: WS_AUTH_CONNECTION_SUCCESS,
+  onClose: WS_AUTH_CONNECTION_CLOSED,
+  onError: WS_AUTH_CONNECTION_ERROR,
+  onMessage: WS_AUTH_GET_MESSAGE
+}
 
-
-export const socketMiddleware = (): Middleware => {
+export const socketAuthMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
-    return next => (action: TWSAction) => {
+    return next => (action: TWSAuthAction) => {
     
       const { dispatch, getState } = store;
       const { type, payload } = action;
-      const {wsInit, onOpen, onMessage, wsSendMessage, onError, onClose } = wsActions
+      const {wsInit, onOpen, onMessage, wsSendMessage, onError, onClose } = wsAuthActions
  
       if (type === wsInit) {
         socket = new WebSocket(payload);

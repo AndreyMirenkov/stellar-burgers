@@ -1,9 +1,14 @@
 import { TIngredient } from "./ingredient"
 
+type TData = {
+    ingredient: TIngredient;
+    count: number;
+}
+
 export type TDataWatchOrder = {
     number: number | null, 
     name: string, 
-    array: Array<TIngredient>, 
+    data: Array<TData>, 
     infoDate: string, 
     price: number | null, 
     statusText: string,

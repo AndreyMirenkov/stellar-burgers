@@ -6,7 +6,7 @@ import { TDataWatchOrder } from "../../utils/typescriptTypes/watchOrder";
 
 type TFeedList = {
     data: Array<TOrder>;
-    onClick: (data: TDataWatchOrder) => void;
+    onClick: (data: TDataWatchOrder, userOrder: boolean) => void;
 }
 
 const FeedList: FC<TFeedList> = ({data, onClick}) => {

@@ -6,26 +6,27 @@ import { useSelector } from '../../utils/hooks/hooks';
 import OrderLiElement from '../../components/orderLiElement/orderLiElement';
 import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
 import { useDispatch } from '../../utils/hooks/hooks';
-import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws-actionCreators';
+import { wsAuthConnectionStart, wsAuthConnectionClosed } from '../../services/actions/ws-authActionCreators';
 import { getCookie } from '../../utils/cookie/cookie';
+import { WSAuthUrl } from '../../utils/const/const';
 
-export const WSUrl = 'wss://norma.nomoreparties.space/orders' 
+//export const WSUrl = 'wss://norma.nomoreparties.space/orders' 
 
 type TOrders = {
-    onClick: (data: TDataWatchOrder) => void
+    onClick: (data: TDataWatchOrder, userOrder: boolean) => void
     logoutProfile: () => void;
 }
 
 const Orders:FC<TOrders> = ({onClick, logoutProfile}) => {
 
     const dispatch = useDispatch();
-    const data = useSelector(store => store.wsReducer.data.orders);
+    const data = useSelector(store => store.wsAuthReducer.data.orders);
     useEffect(() => {
         const accessToken = getCookie('token');
-        dispatch(wsConnectionStart(`${WSUrl}?token=${accessToken}`));
+        dispatch(wsAuthConnectionStart(`${WSAuthUrl}?token=${accessToken}`));
     
         return () => {
-            dispatch(wsConnectionClosed());
+            dispatch(wsAuthConnectionClosed());
         }
     },[dispatch])
 

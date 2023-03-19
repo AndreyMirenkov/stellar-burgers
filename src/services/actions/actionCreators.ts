@@ -1,5 +1,6 @@
 import { getInfo, getNumberOrder } from '../../utils/Api/api';
 import { TIngredient } from '../../utils/typescriptTypes/ingredient';
+import { AppDispatch } from '../../utils/types'; 
 
 import { GET_ALL_INGREDIENTS, 
     GET_CONSTRUCTOR_BUNS_INGREDIENTS, 
@@ -169,7 +170,7 @@ export const finishLoadingIngredientDetails = (): IFinishLoadingIngredientDetail
 }
 
 export const getApiIngredients= () => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         getInfo()
         .then((res: any) => {
           if (res && res.success) {
@@ -184,7 +185,7 @@ export const getApiIngredients= () => {
 }
 
 export const getApiNumberOrder = (data: any) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         getNumberOrder(data)
         .then((res: any) => {
             dispatch(getAndUpdateOrder(res.order.number, res.name));

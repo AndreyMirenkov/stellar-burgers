@@ -1,3 +1,5 @@
+import { AppDispatch } from "../../utils/types";
+
 import { registerUser,
     loginUser, 
     logoutUser, 
@@ -150,7 +152,7 @@ export const actionResetSuccessNewPassword = (): IActionResetSuccessNewPassword 
 }
 
 export const apiRegisterUser = (name: string, email: string, password: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         registerUser({name, email, password})
         .then((res: any) => {
           if (res && res.success) {
@@ -169,7 +171,7 @@ export const apiRegisterUser = (name: string, email: string, password: string) =
 }
 
 export const apiLoginUser = (email: string, password: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         loginUser({email, password})
         .then((res: any) => {
           if (res && res.success) {
@@ -188,7 +190,7 @@ export const apiLoginUser = (email: string, password: string) => {
 }
 
 export const apiLogoutUser = (token: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         logoutUser({token})
         .then((res: any) => {
           if (res && res.success) {
@@ -203,7 +205,7 @@ export const apiLogoutUser = (token: string) => {
 }
 
 export const apiUpdateToken = (token: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         updateToken({token})
         .then((res: any) => {
           if (res && res.success) {
@@ -222,7 +224,7 @@ export const apiUpdateToken = (token: string) => {
 }
 
 export const apiGetProfile = () => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         getProfile()
         .then((res: any) => {
           if (res && res.success) {
@@ -237,7 +239,7 @@ export const apiGetProfile = () => {
 }
 
 export const apiUpdateProfile = (name: string, email: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         updateProfile({name, email})
         .then((res: any) => {
           if (res && res.success) {
@@ -252,7 +254,7 @@ export const apiUpdateProfile = (name: string, email: string) => {
 }
 
 export const apiForgotPassword = (email: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         forgotPassword({email})
         .then((res: any) => {
           if (res && res.success) {
@@ -267,7 +269,7 @@ export const apiForgotPassword = (email: string) => {
 }
 
 export const apiResetPassword = (password: string, token: string) => {
-    return function(dispatch: any){
+    return function(dispatch: AppDispatch){
         resetPassword({password, token})
         .then((res: any) => {
           if (res && res.success) {

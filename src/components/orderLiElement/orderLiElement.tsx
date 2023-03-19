@@ -10,8 +10,17 @@ import { TDataWatchOrder } from "../../utils/typescriptTypes/watchOrder";
 
 type TOrderLiElement = {
     data: TOrder;
-    onClick: (data: TDataWatchOrder) => void;
+    onClick: (data: TDataWatchOrder, userOrder: boolean) => void;
     profileOrder?: boolean 
+}
+
+type TArrayKeys = {
+    [key: string]: number;
+}
+
+type TUniqueArray = {
+    ingredient: TIngredient;
+    count: number;
 }
 
 const OrderLiElement:FC<TOrderLiElement> = ({data, onClick, profileOrder = false}) => {
@@ -19,31 +28,39 @@ const OrderLiElement:FC<TOrderLiElement> = ({data, onClick, profileOrder = false
     const allIngredients = useSelector(store => store.rootReducer.ingredients);
     let location = useLocation();
     const {_id, name, number, ingredients, status, createdAt} = data
-    let array: Array<TIngredient> = []
+    let array: Array<TUniqueArray>= []
     let price: number = 0;
     let addQuantity: string = ''; 
     let pathname: string = profileOrder ? '/profile/orders' : '/feed';
 
     const width = profileOrder ? '796px' : '536px'
 
-    ingredients.forEach((item =>{ 
+    const counts: TArrayKeys = {};
+    ingredients.forEach((el) =>  { 
+        counts[el] = (counts[el] || 0) + 1; 
+    });
+    const arrayUniqueIngredients: string[] = []
+    for (var key in counts) {
+        arrayUniqueIngredients.push(key)
+    }
+
+
+    arrayUniqueIngredients.forEach((item =>{ 
         const data = allIngredients.findIndex((el: TIngredient) => el._id === item)
         if (data>= 0 ) {
-            array.push(allIngredients[data]);
+            array.push({ingredient: allIngredients[data], count: counts[item]})
           }
     }))
-    if (array.length && array[0].type === array[array.length-1].type){
-        array.splice(array.length-1,1);
-    }
     if (array.length > 6){
         addQuantity = '+' + (array.length-5);
     }
 
+
     array.forEach((item) => {
-        if (item.type === 'bun') {
-            price = price + item.price * 2
+        if (item.ingredient.type === 'bun' && item.count === 1) {
+            price = price + item.ingredient.price * 2
         } else {
-            price = price + item.price
+            price = price + item.ingredient.price * item.count
         }
     })
 
@@ -78,7 +95,7 @@ if (status === 'done'){
 const watchOrder = {
     number,
     name,
-    array,
+    data: array,
     infoDate,
     price,
     statusText,
@@ -88,7 +105,7 @@ const watchOrder = {
 
     return(
         <Link to={{pathname: `${pathname}/${_id}`, state: { background: location }}} className = {styles.link}>
-        <li className={styles.content} style = {{width: width}} onClick = {() => onClick(watchOrder)}>
+        <li className={styles.content} style = {{width: width}} onClick = {() => onClick(watchOrder, profileOrder)}>
             <div className={styles.info}>
                 <p className={`text text_type_digits-default ${styles.number}`}>#{number}</p>
                 <p className={`text text_type_main-small text_color_inactive ${styles.date}`}>{infoDate}</p>
@@ -105,12 +122,12 @@ const watchOrder = {
                         }
                         return ( array.length > 6 && index === 5 ?
                         <li className={styles.border_image} key = {index}>
-                            <img className={styles.image} src = {el.image} alt = 'Картинка' style = {{opacity: 0.6}}/>
+                            <img className={styles.image} src = {el.ingredient.image} alt = 'Картинка' style = {{opacity: 0.6}}/>
                             <p className={`text text_type_main-default ${styles.add_quantity}`}>{addQuantity}</p>
                         </li>
                         :
                         <li className={styles.border_image} key = {index}>
-                            <img className={styles.image} src = {el.image} alt = 'Картинка'/>
+                            <img className={styles.image} src = {el.ingredient.image} alt = 'Картинка'/>
                         </li>
                         )
                     })  
