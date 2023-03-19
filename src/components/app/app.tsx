@@ -12,6 +12,7 @@ import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
 import Feed from '../../pages/feed/feed';
 import FeedId from '../../pages/feed-id/feed-id';
+import FeedAuthId from '../../pages/feedAuth-id/feedAuth-id';
 import Orders from '../../pages/orders/orders';
 import { useSelector } from '../../utils/hooks/hooks';
 import { useDispatch } from '../../utils/hooks/hooks';
@@ -200,6 +201,10 @@ useEffect(() => {
 
           <ProtectedRoute path = '/reset-password' authorize={false}>
             {openResetPassword || successResetPassword ?  <ResetPassword resetPassword = {resetPassword}/> : <Redirect to = '/forgot-password'/>}
+          </ProtectedRoute>
+
+          <ProtectedRoute path = '/profile/orders/:id' authorize = {true}>
+              <FeedAuthId/>
           </ProtectedRoute>
 
           <ProtectedRoute path = '/profile/orders' authorize = {true}>
