@@ -2,8 +2,8 @@ import React, {FC, SyntheticEvent} from "react";
 import styles from './profile.module.css';
 import {useState, useEffect} from 'react';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import { NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "../../utils/hooks/hooks";
 import PropTypes from 'prop-types';
 
 type TProfile = {
@@ -13,7 +13,6 @@ type TProfile = {
 
 const Profile:FC<TProfile> = ({updateProfile, logoutProfile}) => {
 
-    const location = useLocation()
     const name: string = useSelector((store: any) => store.authReducer.name);
     const email: string = useSelector((store: any) => store.authReducer.email)
     const [inputName, setInputName] = useState(name);
@@ -55,20 +54,11 @@ const Profile:FC<TProfile> = ({updateProfile, logoutProfile}) => {
                     <NavLink to = '/profile/orders' className={`text text_type_main-medium text_color_inactive ${styles.link}`} activeClassName = {styles.active_link}>История заказов</NavLink>
                     <NavLink to = '/login' className={`text text_type_main-medium text_color_inactive ${styles.link}`} activeClassName = {styles.active_link} onClick = {handleExit}>Выход</NavLink>
                 </nav>
-
-                {location.pathname === '/profile' 
-                ?
                 <p className={`text text_type_main-default text_color_inactive ${styles.text}`}>
                     В этом разделе вы можете изменить свои персональные данные
                 </p>
-                :
-                <p className={`text text_type_main-default text_color_inactive ${styles.text}`}>
-                   В этом разделе вы можете просмотреть свою историю заказов
-                </p>
-                }
             </div>
-            {location.pathname === '/profile'
-            ?
+
             <form className={styles.main_field} onSubmit = {handleClick}>
                 <ul className={styles.list}>
                     <li className='mb-6'>
@@ -109,9 +99,7 @@ const Profile:FC<TProfile> = ({updateProfile, logoutProfile}) => {
                 </Button>
                 </div>
             </form>
-            :
-            <div></div>
-            } 
+            
         </div>
     )
 }

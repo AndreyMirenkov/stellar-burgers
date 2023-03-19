@@ -10,7 +10,11 @@ import Login from '../../pages/login/login';
 import ForgotPassword from '../../pages/forgot-password/forgot-password';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
-import {useDispatch, useSelector} from 'react-redux'
+import Feed from '../../pages/feed/feed';
+import FeedId from '../../pages/feed-id/feed-id';
+import Orders from '../../pages/orders/orders';
+import { useSelector } from '../../utils/hooks/hooks';
+import { useDispatch } from '../../utils/hooks/hooks';
 import {getApiIngredients, getApiNumberOrder} from '../../services/actions/actionCreators';
 import { watchIngredient, deleteWatchIngredient, deleteConstructorIngredients } from '../../services/actions/actionCreators';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -20,11 +24,13 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { apiRegisterUser, apiLoginUser, apiUpdateProfile, 
   apiLogoutUser, apiGetProfile, apiUpdateToken, apiForgotPassword, 
   apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
+import { wsWatchOrder, wsDeleteWatchOrder } from '../../services/actions/ws-actionCreators';
 import { deleteCookie } from '../../utils/cookie/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
 import Popup from '../Popup/popup';
 import { TIngredient } from '../../utils/typescriptTypes/ingredient';
+import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
 
 type TMainIngredient = {
   details: TIngredient;
@@ -34,23 +40,25 @@ type TMainIngredient = {
 function App() {
   const [visibleOrderDetails, setVisibleOrderDetails] = useState(false);
   const [visibleIngredientDetails, setVisibleIngredientDetails] = useState(false);
+  const [visibleFeedDetails, setVisibleFeedDetails] = useState(false);
   const [orderData, setOrderData] = useState<Array<string>>([]);
   const [openPreloader, setOpenPreloader] = useState(false);
   const dispatch: any = useDispatch();
-  const buns: Array<TIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
+  const buns: Array<TIngredient> = useSelector(store => store.rootReducer.ingredientsInConstructor.buns);
   const bunsId = buns.map((item: TIngredient) => item._id);
   const main: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
   const mainId  = main.map(item=> item.details._id);
-  const timeToken = useSelector((store: any) => store.authReducer.token.time);
+  const timeToken = useSelector(store => store.authReducer.token.time);
   const token = useSelector((store: any) => store.authReducer.token.refreshToken);
-  const loggedIn = useSelector((store: any) => store.authReducer.loggedIn);
-  const openResetPassword = useSelector((store: any) => store.authReducer.openResetPassword.inputEmailOnForgotPage)
-  const successResetPassword = useSelector((store: any) => store.authReducer.resetPassword);
+  const loggedIn = useSelector(store => store.authReducer.loggedIn);
+  const openResetPassword = useSelector(store => store.authReducer.openResetPassword.inputEmailOnForgotPage)
+  const successResetPassword = useSelector(store => store.authReducer.resetPassword);
   const history = useHistory();
-  let location: any = useLocation();
+  const location: any = useLocation();
   let background = location.state && location.state.background;
 
   const opacity = openPreloader ? 0.5 : 1
+
 
 useEffect(() => {
   setOrderData([...bunsId, ...mainId, ...bunsId]);
@@ -103,8 +111,13 @@ useEffect(() => {
 
   const handleCloseModal = () => {
     dispatch(deleteWatchIngredient());
+    dispatch(wsDeleteWatchOrder());
     setVisibleOrderDetails(false);
     setVisibleIngredientDetails(false);
+    setVisibleFeedDetails(false);
+    if (location.pathname !== '/'){
+      window.history.back();
+    }
   }
 
   const handleRegister = (name: string, email: string, password: string) => {
@@ -160,6 +173,10 @@ useEffect(() => {
     dispatch(apiResetPassword(password, verificationЕoken));
   }
 
+  const handleOpenFeedDetails = (data: TDataWatchOrder) => {
+    setVisibleFeedDetails(true);
+    dispatch(wsWatchOrder(data));
+  }
 
   return (
     <div className="App">
@@ -183,10 +200,23 @@ useEffect(() => {
             {openResetPassword || successResetPassword ?  <ResetPassword resetPassword = {resetPassword}/> : <Redirect to = '/forgot-password'/>}
           </ProtectedRoute>
 
+          <ProtectedRoute path = '/profile/orders' authorize = {true}>
+              <Orders onClick = {handleOpenFeedDetails} logoutProfile = {logoutProfile}/> 
+          </ProtectedRoute>
+
           <ProtectedRoute path = '/profile' authorize={true}>
             <Profile updateProfile = {updateProfile} logoutProfile = {logoutProfile}/>
           </ProtectedRoute>
          
+
+          <Route exact path = '/feed'>
+              <Feed onClick = {handleOpenFeedDetails}/> 
+          </Route>
+
+          <Route exact path = '/feed/:id'>
+              <FeedId/> 
+          </Route>
+
           <Route exact path = '/ingredients/:id'>
               <IngredientDetails/> 
           </Route>
@@ -208,6 +238,15 @@ useEffect(() => {
         {background && <Route path= '/ingredients/:id'>
           <Popup isOpen = {visibleIngredientDetails} onClose = {handleCloseModal} />
         </Route>}
+
+        {background && <Route path= '/feed/:id'>
+          <Popup isOpen = {visibleFeedDetails} onClose = {handleCloseModal}/>
+        </Route>}
+
+        {background && <ProtectedRoute path= '/profile/orders/:id' authorize = {true}>
+          <Popup isOpen = {visibleFeedDetails} onClose = {handleCloseModal}/>
+        </ProtectedRoute>}
+        
     </div>
   );
 }

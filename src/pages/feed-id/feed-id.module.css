@@ -1,0 +1,89 @@
+.content{
+    width: 640px;
+    min-height: 620px;
+    margin: 122px auto 230px;
+}
+
+.number{
+    text-align: center;
+}
+
+.list_ingredient{
+    width: 100%;
+    height: 304px;
+    overflow-y: overlay;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+.list_ingredient::-webkit-scrollbar {
+    width: 8px;
+  }
+.list_ingredient::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+.list_ingredient::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }
+
+.element{
+    width: 608px;
+    height: 64px;
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.element:last-of-type{
+    margin-bottom: 0px;
+}
+
+.image{
+    width: 60px;
+    height: 60px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: 
+    linear-gradient(#1C1C21, #1C1C21), 
+    linear-gradient(to right,#801AB2,#4C4CFF); 
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    object-fit: cover;
+    position: relative;
+    box-sizing: border-box;
+
+}
+
+.name_ingredient{
+    width: 320px;
+}
+
+.price_ingredient{
+    width: 192px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add_info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.price{
+    display: flex;
+}
+
+.notFound{
+    width: 500px;
+    margin: 120px auto 0;
+    text-align: center;
+}
+
+.notfound_image{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}

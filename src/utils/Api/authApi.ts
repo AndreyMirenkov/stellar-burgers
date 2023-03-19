@@ -38,7 +38,7 @@ export const loginUser = ({email, password}: TUser) => {
     }).then(checkResponse);
 }
 
-export const logoutUser = (token: TUser) => {
+export const logoutUser = ({token}: TUser) => {
     return fetch(`${BASE_URL}/auth/logout`, {
         method: 'POST',
         headers: headers,
@@ -78,7 +78,7 @@ export const updateProfile = ({name, email}: TUser) => {
     }).then(checkResponse);
 }
 
-export const updateToken = (token: TUser) => {
+export const updateToken = ({token}: TUser) => {
     return fetch(`${BASE_URL}/auth/token`, {
         method: 'POST',
         mode: 'cors',
@@ -91,7 +91,7 @@ export const updateToken = (token: TUser) => {
     }).then(checkResponse);
 }
 
-export const forgotPassword = (email: TUser) => {
+export const forgotPassword = ({email}: TUser) => {
     return fetch(`${BASE_URL}/password-reset`, {
         method: 'POST',
         headers: headers,

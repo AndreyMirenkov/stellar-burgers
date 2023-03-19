@@ -1,0 +1,69 @@
+.content{
+    width: 1240px;
+    margin: 120px auto 0;
+    display: flex;
+}
+
+.navigation{
+    display: flex;
+    flex-direction: column;
+}
+
+.list{
+    width: 860px;
+    height: 916px;
+    padding: 0;
+    overflow-y: overlay;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+  }
+.list::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+.list::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }
+
+.button{
+    display: flex;
+    justify-content: center;
+}
+
+.text{
+    width: 320px;
+}
+
+.main_field{
+    display: flex;
+    flex-direction: column;
+}
+
+.link{
+    text-decoration: none;
+    width: 320px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.active_link{
+    color: #F2F2F3;
+}
+
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button_return{
+    width: 74px;
+    height: 56px;
+    color: #4C4CFF;
+    background-color: transparent;
+    border: 0;
+}

@@ -4,8 +4,8 @@ import styles from './order-details.module.css';
 import orderImg from '../../images/icon-order.svg';
 
 type TInfoOrder = {
-  number: number;
-  name: string;
+  number: string | null;
+  name: string| null;
 }
 
 const OrderDetails:FC<TInfoOrder> = ({number, name}) => {

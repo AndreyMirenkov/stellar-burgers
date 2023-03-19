@@ -8,8 +8,24 @@ import { REGISTER_USER,
   RESET_PASSWORD,
   RESET_SUCCESS_INPUT_NEW_PASSWORD} from "../actions/auth-actions";
 
+import { TAuthActions } from "../actions/auth-actionCreators";
 
-export const initialState = {
+type TAuthState = {
+  loggedIn: boolean,
+    name: string | null,
+    email: string | null,
+    token: {
+        accessToken: string| null,
+        refreshToken: string | null,
+        time: any
+    },
+    openResetPassword: {
+      inputEmailOnForgotPage: boolean
+    },
+    resetPassword: boolean,
+} 
+
+export const initialState: TAuthState = {
     loggedIn: false,
     name: null,
     email: null,
@@ -24,7 +40,7 @@ export const initialState = {
     resetPassword: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
     switch(action.type){
       case REGISTER_USER: {
         return {

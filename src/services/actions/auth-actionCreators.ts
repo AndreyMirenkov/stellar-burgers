@@ -19,7 +19,68 @@ import { REGISTER_USER,
 
     import { setCookie } from '../../utils/cookie/cookie';
 
-export const actionRegisterUser = (name, email, accessToken, refreshToken) => {
+export interface IActionRegisterUser {
+  readonly type: typeof REGISTER_USER;
+  readonly name: string;
+  readonly email: string;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+
+export interface IActionLoginUser {
+  readonly type: typeof LOGIN_USER;
+  readonly name: string;
+  readonly email: string;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+
+export interface IActionLogoutUser { 
+  readonly type: typeof LOGOUT_USER;
+}
+
+export interface IActionUpdateToken {
+  readonly type: typeof UPDATE_TOKEN;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+
+export interface IActionGetProfileData {
+  readonly type: typeof GET_DATA_ABOUT_PROFILE;
+  readonly name: string;
+  readonly email: string;
+}
+
+export interface IActionUpdataProfile {
+  readonly type: typeof UPDATE_PROFILE_DATA;
+  readonly name: string;
+  readonly email: string;
+}
+
+export interface IActionForgotPassword {
+  readonly type: typeof FORGOT_PASSWORD;
+}
+
+export interface IActionResetPassword {
+  readonly type: typeof RESET_PASSWORD;
+}
+
+export interface IActionResetSuccessNewPassword {
+  readonly type: typeof RESET_SUCCESS_INPUT_NEW_PASSWORD;
+}
+
+export type TAuthActions = | IActionRegisterUser 
+| IActionLoginUser 
+| IActionLogoutUser 
+| IActionUpdateToken 
+| IActionGetProfileData 
+| IActionUpdataProfile 
+| IActionForgotPassword 
+| IActionResetPassword 
+| IActionResetSuccessNewPassword;
+
+
+export const actionRegisterUser = (name: string, email: string, accessToken: string, refreshToken: string): IActionRegisterUser => {
     return {
         type: REGISTER_USER,
         name,
@@ -29,7 +90,7 @@ export const actionRegisterUser = (name, email, accessToken, refreshToken) => {
     }
 }
 
-export const actionLoginUser = (name, email,accessToken, refreshToken) => {
+export const actionLoginUser = (name: string, email: string, accessToken: string, refreshToken: string): IActionLoginUser => {
     return {
         type: LOGIN_USER,
         name,
@@ -39,13 +100,13 @@ export const actionLoginUser = (name, email,accessToken, refreshToken) => {
     }
 }
 
-export const actionLogoutUser = () => {
+export const actionLogoutUser = (): IActionLogoutUser => {
     return{
         type: LOGOUT_USER
     }
 }
 
-export const actionUpdateToken = (accessToken, refreshToken) => {
+export const actionUpdateToken = (accessToken: string, refreshToken: string): IActionUpdateToken => {
     return {
         type: UPDATE_TOKEN,
         accessToken,
@@ -53,7 +114,7 @@ export const actionUpdateToken = (accessToken, refreshToken) => {
     }
 }
 
-export const actionGetProfileData = (name, email) => {
+export const actionGetProfileData = (name: string, email: string): IActionGetProfileData => {
     return {
         type: GET_DATA_ABOUT_PROFILE,
         name,
@@ -62,7 +123,7 @@ export const actionGetProfileData = (name, email) => {
     }
 }
 
-export const actionUpdataProfile = (name, email) => {
+export const actionUpdataProfile = (name: string, email: string): IActionUpdataProfile  => {
     return {
         type: UPDATE_PROFILE_DATA,
         name,
@@ -70,28 +131,28 @@ export const actionUpdataProfile = (name, email) => {
     }
 }
 
-export const actionForgotPassword = () => {
+export const actionForgotPassword = (): IActionForgotPassword => {
     return {
         type: FORGOT_PASSWORD,
     }
 }
 
-export const actionResetPassword = () => {
+export const actionResetPassword = (): IActionResetPassword => {
     return {
         type: RESET_PASSWORD,
     }
 }
 
-export const actionResetSuccessNewPassword = () => {
+export const actionResetSuccessNewPassword = (): IActionResetSuccessNewPassword => {
   return {
     type: RESET_SUCCESS_INPUT_NEW_PASSWORD
   }
 }
 
-export const apiRegisterUser = (name, email, password) => {
-    return function(dispatch){
+export const apiRegisterUser = (name: string, email: string, password: string) => {
+    return function(dispatch: any){
         registerUser({name, email, password})
-        .then(res => {
+        .then((res: any) => {
           if (res && res.success) {
             const accessToken = res.accessToken;
             const token = accessToken.split(' ');
@@ -107,10 +168,10 @@ export const apiRegisterUser = (name, email, password) => {
     }
 }
 
-export const apiLoginUser = (email, password) => {
-    return function(dispatch){
+export const apiLoginUser = (email: string, password: string) => {
+    return function(dispatch: any){
         loginUser({email, password})
-        .then(res => {
+        .then((res: any) => {
           if (res && res.success) {
             const accessToken = res.accessToken;
             const token = accessToken.split(' ');
@@ -126,10 +187,10 @@ export const apiLoginUser = (email, password) => {
     }
 }
 
-export const apiLogoutUser = (token) => {
-    return function(dispatch){
-        logoutUser(token)
-        .then(res => {
+export const apiLogoutUser = (token: string) => {
+    return function(dispatch: any){
+        logoutUser({token})
+        .then((res: any) => {
           if (res && res.success) {
             dispatch(actionLogoutUser());
           } else {
@@ -141,10 +202,10 @@ export const apiLogoutUser = (token) => {
     }
 }
 
-export const apiUpdateToken = (token) => {
-    return function(dispatch){
-        updateToken(token)
-        .then(res => {
+export const apiUpdateToken = (token: string) => {
+    return function(dispatch: any){
+        updateToken({token})
+        .then((res: any) => {
           if (res && res.success) {
             const accessToken = res.accessToken;
             const token = accessToken.split(' ');
@@ -161,9 +222,9 @@ export const apiUpdateToken = (token) => {
 }
 
 export const apiGetProfile = () => {
-    return function(dispatch){
+    return function(dispatch: any){
         getProfile()
-        .then(res => {
+        .then((res: any) => {
           if (res && res.success) {
             dispatch(actionGetProfileData(res.user.name, res.user.email));
           } else {
@@ -175,10 +236,10 @@ export const apiGetProfile = () => {
     }
 }
 
-export const apiUpdateProfile = (name, email) => {
-    return function(dispatch){
+export const apiUpdateProfile = (name: string, email: string) => {
+    return function(dispatch: any){
         updateProfile({name, email})
-        .then(res => {
+        .then((res: any) => {
           if (res && res.success) {
             dispatch(actionUpdataProfile(res.user.name, res.user.email));
           } else {
@@ -190,10 +251,10 @@ export const apiUpdateProfile = (name, email) => {
     }
 }
 
-export const apiForgotPassword = (email) => {
-    return function(dispatch){
-        forgotPassword(email)
-        .then(res => {
+export const apiForgotPassword = (email: string) => {
+    return function(dispatch: any){
+        forgotPassword({email})
+        .then((res: any) => {
           if (res && res.success) {
             dispatch(actionForgotPassword());
           } else {
@@ -205,10 +266,10 @@ export const apiForgotPassword = (email) => {
     }
 }
 
-export const apiResetPassword = (password, token) => {
-    return function(dispatch){
+export const apiResetPassword = (password: string, token: string) => {
+    return function(dispatch: any){
         resetPassword({password, token})
-        .then(res => {
+        .then((res: any) => {
           if (res && res.success) {
             dispatch(actionResetPassword());
           } else {

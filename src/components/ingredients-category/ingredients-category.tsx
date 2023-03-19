@@ -1,7 +1,7 @@
 import React, {useRef, FC} from "react";
 import styles from './ingredients-category.module.css';
 import {DragIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "../../utils/hooks/hooks";
 import { deleteConstructorMainIngredient } from "../../services/actions/actionCreators";
 import {useDrag, useDrop} from 'react-dnd'
 
@@ -12,11 +12,10 @@ type TIngredientsCategory = {
   thumbnail: string;
   index: number;
   moveIngredient: (dragIndex: number, hoverIndex: number) => void;
-  keyDelete: number;
+  keyDelete: string;
 }
 
 const IngredientsCategory:FC<TIngredientsCategory> = ({id, text, price, thumbnail, index, moveIngredient, keyDelete}) => {
-
 const dispatch = useDispatch();
 
     const ref = useRef<HTMLLIElement>(null)

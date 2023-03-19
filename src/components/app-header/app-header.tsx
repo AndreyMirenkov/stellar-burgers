@@ -30,8 +30,7 @@ const AppHeader: FC = () => {
         setTextList(false);
         setTextProfile(false);
     }
-    if (location.pathname === '/list'){
-        console.log(location)
+    if (location.pathname === '/feed'){
         setTypeMain(false);
         setTypeList(true);
         setTypeProfile(false);
@@ -59,9 +58,9 @@ const AppHeader: FC = () => {
                         <BurgerIcon type={markMain}/>
                         <p className = {`pl-2 text text_type_main-default ${textActiveMain} ${styles.text}`}>Конструктор</p>
                     </Link>
-                    <Link to = '/' className={`pl-5 pr-5 pb-4 pt-4 ${textActiveList} ${styles.item}`}>
+                    <Link to = '/feed' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
                         <ListIcon type={markList} />
-                        <p className={`pl-2 text text_type_main-default text_color_inactive ${styles.text}`}>Лента заказов</p>
+                        <p className={`pl-2 text text_type_main-default ${textActiveList} ${styles.text}`}>Лента заказов</p>
                     </Link>
                 </nav>
                 <Link to = '/' className={styles.logo}>

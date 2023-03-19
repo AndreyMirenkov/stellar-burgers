@@ -1,4 +1,10 @@
-export const setCookie = (name: string, value: string, props: any) => {
+type TProps = {
+  path?: string
+  expires?: Date | string | number
+  [propName: string]: any
+}
+
+export const setCookie = (name: string, value: string, props?: TProps) => {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -6,8 +12,8 @@ export const setCookie = (name: string, value: string, props: any) => {
       d.setTime(d.getTime() + exp * 1000);
       exp = props.expires = d;
     }
-    if (exp && exp.toUTCString) {
-      props.expires = exp.toUTCString();
+    if (exp && exp.toString) {
+      props.expires = exp.toString();
     }
     value = encodeURIComponent(value);
     let updatedCookie = name + '=' + value;

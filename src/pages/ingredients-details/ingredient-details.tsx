@@ -1,9 +1,9 @@
 import React from "react";
 import styles from './ingredient-details.module.css';
-import { useSelector } from "react-redux";
+import { useSelector } from "../../utils/hooks/hooks";
 import { useParams } from "react-router-dom";
 import {useEffect, useState} from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../utils/hooks/hooks";
 import { loadingIngredientDetails, finishLoadingIngredientDetails } from "../../services/actions/actionCreators";
 import notFound from '../../images/notFound.svg';
 import {TIngredient} from '../../utils/typescriptTypes/ingredient'
@@ -11,7 +11,7 @@ import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 function IngredientDetails(){
     const dispatch  = useDispatch();
     const ingredientId: any = useParams();
-    const ingredients = useSelector((store: any) => store.rootReducer.ingredients);
+    const ingredients = useSelector(store => store.rootReducer.ingredients);
     const [ingredient, setIngredient] = useState<Array<TIngredient>>([])
     const [loading, setLoading] = useState(false);  
     const [notFoundIngredient, setNotFoundIngredient] = useState(false)
