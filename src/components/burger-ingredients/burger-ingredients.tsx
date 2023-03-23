@@ -5,7 +5,7 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import Ingredients from '../ingredients/ingredients';
 import { InView } from "react-intersection-observer";
-import {useSelector} from 'react-redux';
+import { useSelector } from '../../utils/hooks/hooks';
 import { TIngredient } from '../../utils/typescriptTypes/ingredient';
 
 type TBurgerIngredient = {
@@ -14,7 +14,7 @@ type TBurgerIngredient = {
 
 const BurgerIngredients: FC<TBurgerIngredient> = ({onClick}) => {
     const [current, setCurrent] = useState('one');
-    const data = useSelector((store: any) => store.rootReducer.ingredients);
+    const data = useSelector(store => store.rootReducer.ingredients);
 
     const buns = useMemo(() => data.filter((item: TIngredient) => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter((item: TIngredient) => item.type === 'main'), [data]);

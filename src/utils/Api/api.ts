@@ -1,4 +1,6 @@
+import { getCookie } from "../cookie/cookie";
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
+
 
 type TPost = {
     data: Array<string>;
@@ -25,9 +27,13 @@ export const getInfo = () => {
 }
 
 export const getNumberOrder = (data: TPost) => {
+    const token = 'Bearer ' + getCookie('token')
     return fetch(`${BASE_URL}/orders`, {
         method: 'POST',
-        headers: headers,
+        headers: {
+            'Content-type': 'application/json',
+            authorization: token,
+        },
         body: JSON.stringify({
             ingredients: data
         })

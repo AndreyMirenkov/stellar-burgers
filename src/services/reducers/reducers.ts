@@ -10,7 +10,28 @@ import { GET_ALL_INGREDIENTS,
   LOADING_INGREDIENT_DETAILS,
   FINISH_LOADING_INGREDIENT_DETAILS} from "../actions/action"
 
-export const initialState = {
+import { TIngredient } from "../../utils/typescriptTypes/ingredient";
+import { TMainActions } from "../actions/actionCreators";
+
+
+type TMainState = {
+  ingredients: Array<TIngredient>;
+  ingredientsInConstructor: {
+    buns: Array<TIngredient> | [];
+    ingredients: Array<{
+      details: TIngredient | [];
+      key: string | null;
+    }>;
+  };
+  watchIngredients: TIngredient | {};
+  order: {
+    number: string | null;
+    name: string | null;
+  };
+  loadingIngredientDetails: boolean;
+}
+
+export const initialState: TMainState = {
     ingredients: [],
     ingredientsInConstructor: {
         buns: [],
@@ -29,7 +50,7 @@ export const initialState = {
     loadingIngredientDetails: false
   }
 
-export const rootReducer = (state = initialState, action) => {
+export const rootReducer = (state = initialState, action: TMainActions): TMainState => {
     switch(action.type){
       case GET_ALL_INGREDIENTS: {
         return {
@@ -100,7 +121,11 @@ export const rootReducer = (state = initialState, action) => {
           ingredientsInConstructor: {
             buns: [],
             ingredients: []
-          }
+          },
+          order: {
+            number: null,
+            name: null,
+          },
         }
       }
       case LOADING_INGREDIENT_DETAILS: {

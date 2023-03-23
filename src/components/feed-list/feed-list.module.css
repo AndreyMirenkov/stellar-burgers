@@ -1,0 +1,22 @@
+.content{
+    width: 608px;
+}
+
+.list{
+    height: 852px;
+    padding: 0;
+    overflow-y: overlay;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+  }
+.list::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+.list::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }

@@ -6,7 +6,8 @@ import IngredientsCategory from '../ingredients-category/ingredients-category';
 import PropTypes from 'prop-types';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector } from '../../utils/hooks/hooks';
+import { useDispatch } from '../../utils/hooks/hooks';
 import {useDrop} from 'react-dnd'
 import update from 'immutability-helper';
 import { getConstructorBunsIngredients, getConstructorMainIngredients, updateMainIngredients } from '../../services/actions/actionCreators';
@@ -23,7 +24,7 @@ type TBurgerConstructor = {
 
 type TMainIngredient = {
     details: TIngredient;
-    key: number;
+    key: string;
 }
 
 const BurgerConstructor: FC<TBurgerConstructor> = ({isOpen, onClose, onClick}) => {
@@ -31,8 +32,8 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({isOpen, onClose, onClick}) =
 const dispatch = useDispatch();
 const [ingredients, setIngredients] = useState<Array<TMainIngredient>>([]);
 const [priceArrayMain, setPriceArrayMain] = useState<Array<number>>([]); 
-const infoOrderNumber = useSelector((store: any) => store.rootReducer.order.number);
-const infoOrderName = useSelector((store: any) => store.rootReducer.order.name);
+const infoOrderNumber = useSelector(store => store.rootReducer.order.number);
+const infoOrderName = useSelector(store => store.rootReducer.order.name);
 const mainIngredients: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
 const bunsIngredients = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
 const priceBuns = useMemo(() => bunsIngredients.map((item: TIngredient)=> item.price), [bunsIngredients])
@@ -53,8 +54,8 @@ const [{ isHover }, dropTarget] = useDrop({
     collect: monitor => ({
       isHover: monitor.isOver()
     }),
-    drop(item){
-        const key = uuidv4();
+    drop(item: any){
+        const key = String(uuidv4());
         dispatch(getConstructorMainIngredients(item, key))
   }
   });
@@ -63,7 +64,7 @@ const [{ isHover }, dropTarget] = useDrop({
     collect: monitor => ({
       isHoverBunTop: monitor.isOver()
     }),
-    drop(item){
+    drop(item: any){
         dispatch(getConstructorBunsIngredients(item))
   }
   });
@@ -73,7 +74,7 @@ const [{ isHover }, dropTarget] = useDrop({
     collect: monitor => ({
       isHoverBunBottom: monitor.isOver()
     }),
-    drop(item){
+    drop(item: any){
         dispatch(getConstructorBunsIngredients(item))
   }
   });

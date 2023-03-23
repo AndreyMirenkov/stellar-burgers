@@ -1,0 +1,123 @@
+.link{
+    color: #F2F2F3;
+    text-decoration: none;
+}
+
+.content{
+    background-color: #1C1C21;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.info{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.number{
+    margin: 0;
+}
+
+.date{
+    margin: 0;
+}
+
+.name{
+    width: 100%;
+}
+
+.ingredients{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.images{
+    width: 436px;
+    height: 64px;;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.border_image{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+}
+
+.image{
+    width: 60px;
+    height: 60px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: 
+    linear-gradient(#1C1C21, #1C1C21), 
+    linear-gradient(to right,#801AB2,#4C4CFF); 
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    object-fit: cover;
+    position: relative;
+    box-sizing: border-box;
+
+}
+.border_image:nth-of-type(1){
+    z-index: 10;
+}
+
+.border_image:nth-of-type(2){
+    z-index: 9;
+    position: absolute;
+    left: 48px
+}
+.border_image:nth-of-type(3){
+    z-index: 8;
+    position: absolute;
+    left: 96px
+}
+
+.border_image:nth-of-type(4){
+    z-index: 7;
+    position: absolute;
+    left: 144px;
+}
+
+.border_image:nth-of-type(5){
+    z-index: 6;
+    position: absolute;
+    left: 192px;
+}
+
+.border_image:nth-of-type(6){
+    z-index: 5;
+    position: absolute;
+    left: 240px;
+}
+
+.add_quantity{
+    position: absolute;
+    z-index: 6;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.price{
+    display: flex;
+}

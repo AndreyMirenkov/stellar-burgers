@@ -11,10 +11,11 @@ const modalRoot = document.getElementById("react-modals") as HTMLElement;
 type TModal = {
     onClose: () => void;
     heading: boolean;
-    title?: string;
+    title?: string | number;
+    style?: string;
 }
 
-const Modal:FC<React.PropsWithChildren<TModal>> = ({children, onClose, heading, title }) => {
+const Modal:FC<React.PropsWithChildren<TModal>> = ({children, onClose, heading, title, style = null }) => {
 
     useEffect(() => {
         document.addEventListener("keydown", handleClickEscape);
@@ -28,17 +29,20 @@ const Modal:FC<React.PropsWithChildren<TModal>> = ({children, onClose, heading, 
         }
     } 
 
+   const styleHeading =  style !== null ? style :  'text text_type_main-large'
+   const width = style !== null ? '640px' : '520px'
+
     return createPortal(
         <>
         <div className={styles.modal}>
             <ModalOverlay onClose={onClose}/>
             <div className={styles.modal_field}>
             {heading && 
-            <h2 className={`text text_type_main-large ${styles.text}`}>{title}</h2>}
+            <h2 className={`${styleHeading} ${styles.text}`}>{title}</h2>}
             <button className={styles.button_close} type= "button">
                 <CloseIcon type="primary" onClick={onClose}/>
             </button>
-                <div className={styles.content}>
+                <div className={styles.content} style = {{width: width}}>
                     {children}
                 </div>
             </div>
