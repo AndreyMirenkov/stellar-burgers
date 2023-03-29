@@ -27,7 +27,7 @@ import { apiRegisterUser, apiLoginUser, apiUpdateProfile,
   apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
 import { wsWatchOrder, wsDeleteWatchOrder } from '../../services/actions/ws-actionCreators';
 import { wsAuthWatchOrder, wsAuthDeleteWatchOrder } from '../../services/actions/ws-authActionCreators';
-import { deleteCookie } from '../../utils/cookie/cookie';
+import { deleteCookie, getCookie } from '../../utils/cookie/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
 import Popup from '../Popup/popup';
@@ -80,6 +80,12 @@ useEffect(() => {
   }
 }
 },[])
+
+// useEffect(() => {
+//   if (localStorage.getItem('refreshToken') !== null && getCookie('token')){
+//   dispatch(apiGetProfile());
+//   }
+// },[dispatch])
 
 useEffect(() => {
   if (openResetPassword){

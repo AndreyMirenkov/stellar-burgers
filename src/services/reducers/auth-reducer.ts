@@ -134,22 +134,3 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
       }
     }
 }
-
-
-// startConnected: false,
-// wsConnected: false,
-// data: {
-//     success: false,
-//     orders: [],
-//     total: null,
-//     totalToday: null,
-// },
-// watchOrder: {
-//     number: null, 
-//     name: '', 
-//     data: [], 
-//     infoDate: '', 
-//     price: null, 
-//     statusText: '',
-//     styleStatus: ''
-// },
