@@ -11,5 +11,8 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt = 'Redux' width = '60' height = '60'/>          
 </div>          
 
+## Ссылка на страницу проекта
+https://stellar-burger.nomoredomains.work/
+
 ## Текущее остояние проекта
 Проект в работе 🖥
