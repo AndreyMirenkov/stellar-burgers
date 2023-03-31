@@ -45,14 +45,14 @@ useEffect(() => {
 
     return(
         <Link to={{pathname: `/ingredients/${id}`, state: { background: location }}} className = {styles.link}>
-        <div className = {styles.element} style = {{opacity: opacity}}>
-            <div ref={ref}>
-            <img className = 'mb-1 ml-4 mr-4' src = {element.image} alt = 'картинка ингредиента' onClick={() => onClick(element)}/>
+        <div className = {styles.element} style = {{opacity: opacity}} onClick={() => onClick(element)}>
+            <div ref={ref} className = 'drag_element'>
+            <img className = 'mb-1 ml-4 mr-4' src = {element.image} alt = 'картинка ингредиента'/>
             </div>
-            <div className={styles.price}>
-                <p className = ' mb-1 mr-2 text text_type_digits-default'>{element.price}</p>
-                <CurrencyIcon type="primary"/>
-            </div>
+                <div className={styles.price}>
+                    <p className = ' mb-1 mr-2 text text_type_digits-default'>{element.price}</p>
+                    <CurrencyIcon type="primary"/>
+                </div>
             <p className = {`text text_type_main-default ${styles.text}`}>{element.name}</p>
             <Counter count={quantity} size="default" extraClass="m-1" />
         </div>

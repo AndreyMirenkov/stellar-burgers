@@ -33,14 +33,14 @@ const Login: FC<TLogin> = ({handleLogin}) => {
             <form onSubmit={handleClick}>
             <h2 className={`mb-6 text text_type_main-medium ${styles.title}`}>Вход</h2>
             <ul className={styles.list}>
-                <li className='mb-6'>
+                <li className='mb-6' data-testid = 'email_input'>
                     <EmailInput name={'email'}
                         value = {values.email}
                         onChange = {handleChange}
                         isIcon={false}
                     />
                 </li>
-                <li className='mb-6'>
+                <li className='mb-6' data-testid = 'password_input'>
                     <PasswordInput name={'password'}
                         value = {values.password}
                         onChange = {handleChange}

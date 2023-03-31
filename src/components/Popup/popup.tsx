@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+import {FC} from 'react'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderPopup from '../order-popup/order-popup';

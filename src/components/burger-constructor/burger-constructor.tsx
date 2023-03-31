@@ -107,7 +107,7 @@ const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
     return(
         <section className={`mt-25 ${styles.content}`}>
             <div className={styles.ingredients_constructor}>
-                <div ref ={dropBunTop} className='ml-4 mr-4 pl-8' style =  {{border: borderBuns, borderRadius: '88px 88px 40px 40px'}}>
+                <div ref ={dropBunTop} id = 'dropBunTop' className='ml-4 mr-4 pl-8' style =  {{border: borderBuns, borderRadius: '88px 88px 40px 40px'}}>
                 {bunsIngredients[0] ?
                     <ConstructorElement
                         type="top"
@@ -119,7 +119,7 @@ const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
                     <div className = {`text text_type_main-default ${styles.drop_container_top}`}>Выберите булку</div>}
                 </div>
                 <DndProvider backend={HTML5Backend}>
-                <ul ref = {dropTarget} className= {styles.fill} style = {{border: borderMain, borderRadius: 40}}>
+                <ul ref = {dropTarget} id = 'dropMain' className= {styles.fill} style = {{border: borderMain, borderRadius: 40}}>
                 {mainIngredients.length !== 0 ? 
                     mainIngredients.map((el, index) => (
                     <IngredientsCategory key={el.key} id = {el.details._id} text = {el.details.name} price = {el.details.price} thumbnail = {el.details.image} index = {index} moveIngredient = {moveIngredient} keyDelete = {el.key}/>

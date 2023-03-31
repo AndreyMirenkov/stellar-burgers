@@ -19,7 +19,7 @@ import { REGISTER_USER,
     RESET_PASSWORD,
     RESET_SUCCESS_INPUT_NEW_PASSWORD} from "./auth-actions";
 
-    import { getCookie, setCookie } from '../../utils/cookie/cookie';
+    import { setCookie } from '../../utils/cookie/cookie';
 
 export interface IActionRegisterUser {
   readonly type: typeof REGISTER_USER;
@@ -228,13 +228,7 @@ export const apiGetProfile = () => {
         getProfile()
         .then((res: any) => {
           if (res && res.success) {
-            // let refreshToken: any
-            // if (localStorage.getItem('refreshToken') !== null) {
-            // refreshToken = JSON.parse(localStorage.getItem('refreshToken') || '{}')
-            // }
-            // const accessToken = getCookie('token');
             dispatch(actionGetProfileData(res.user.name, res.user.email));
-            //dispatch(actionUpdateToken(accessToken, refreshToken));
           } else {
             alert('Возникла ошибка при получении данных профиля.');
           }

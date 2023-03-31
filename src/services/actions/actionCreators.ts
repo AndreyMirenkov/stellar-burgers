@@ -189,8 +189,8 @@ export const getApiNumberOrder = (data: any) => {
         getNumberOrder(data)
         .then((res: any) => {
             dispatch(getAndUpdateOrder(res.order.number, res.name));
-        }).catch(err => {
+        }).catch((err) => {
             alert(`Возникла ошибка ${err}`)
-        })
+        });
     }
 }
