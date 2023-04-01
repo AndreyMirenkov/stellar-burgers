@@ -1,11 +1,6 @@
 import { getCookie } from "../cookie/cookie";
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-
-type TPost = {
-    data: Array<string>;
-}
-
 const headers = {
     'Accept': 'application/json',
     'Content-type': 'application/json',

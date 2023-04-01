@@ -8,9 +8,6 @@ import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws
 import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
 import { WSUrl } from '../../utils/const/const';
 
-//export const WSUrl = 'wss://norma.nomoreparties.space/orders/all'
-
-
 type TFeed = {
     onClick: (data: TDataWatchOrder, userOrder: boolean) => void;
 }
@@ -19,8 +16,9 @@ const Feed:FC<TFeed> = ({onClick}) => {
     const dispatch = useDispatch();
     const data = useSelector(store => store.wsReducer.data);
 
+
 useEffect(() => {
-    dispatch(wsConnectionStart(WSUrl));
+    setTimeout(() => dispatch(wsConnectionStart(WSUrl)),10);
 
     return () => {
         dispatch(wsConnectionClosed());

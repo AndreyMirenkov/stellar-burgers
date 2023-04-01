@@ -6,11 +6,10 @@ import { useSelector } from '../../utils/hooks/hooks';
 import OrderLiElement from '../../components/orderLiElement/orderLiElement';
 import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
 import { useDispatch } from '../../utils/hooks/hooks';
-import { wsAuthConnectionStart, wsAuthConnectionClosed } from '../../services/actions/ws-authActionCreators';
+import { wsConnectionStart, wsConnectionClosed } from '../../services/actions/ws-actionCreators';
 import { getCookie } from '../../utils/cookie/cookie';
 import { WSAuthUrl } from '../../utils/const/const';
 
-//export const WSUrl = 'wss://norma.nomoreparties.space/orders' 
 
 type TOrders = {
     onClick: (data: TDataWatchOrder, userOrder: boolean) => void
@@ -20,13 +19,13 @@ type TOrders = {
 const Orders:FC<TOrders> = ({onClick, logoutProfile}) => {
 
     const dispatch = useDispatch();
-    const data = useSelector(store => store.wsAuthReducer.data.orders);
+    const data = useSelector(store => store.wsReducer.data.orders);
     useEffect(() => {
         const accessToken = getCookie('token');
-        dispatch(wsAuthConnectionStart(`${WSAuthUrl}?token=${accessToken}`));
+        setTimeout(() => dispatch(wsConnectionStart(`${WSAuthUrl}?token=${accessToken}`)),10);
     
         return () => {
-            dispatch(wsAuthConnectionClosed());
+            dispatch(wsConnectionClosed());
         }
     },[dispatch])
 

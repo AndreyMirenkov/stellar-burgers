@@ -26,8 +26,7 @@ import { apiRegisterUser, apiLoginUser, apiUpdateProfile,
   apiLogoutUser, apiGetProfile, apiUpdateToken, apiForgotPassword, 
   apiResetPassword, actionResetSuccessNewPassword } from '../../services/actions/auth-actionCreators';
 import { wsWatchOrder, wsDeleteWatchOrder } from '../../services/actions/ws-actionCreators';
-import { wsAuthWatchOrder, wsAuthDeleteWatchOrder } from '../../services/actions/ws-authActionCreators';
-import { deleteCookie, getCookie } from '../../utils/cookie/cookie';
+import { deleteCookie } from '../../utils/cookie/cookie';
 import IngredientDetails from '../../pages/ingredients-details/ingredient-details';
 import NotFound from '../../pages/not-found/not-found';
 import Popup from '../Popup/popup';
@@ -66,27 +65,27 @@ function App() {
   const history = useHistory();
   const location= useLocation<LocationParams>();
   let background = location.state && location.state.background;
-  console.log(background);
 
   const opacity = openPreloader ? 0.5 : 1
 
 useEffect(() => {
-  if (localStorage.getItem('WatchIngredient') !== null){
-    setVisibleIngredientDetails(true);
-  };
-  if (localStorage.getItem('WatchFeed') !== null){
-    setVisibleFeedDetails(true);
-  };
-},[])
-
-
+    if (localStorage.getItem('WatchIngredient') !== null){
+      setVisibleIngredientDetails(true);
+      dispatch(watchIngredient(JSON.parse(localStorage.getItem('WatchIngredient') || '{}')));
+    };
+    if (localStorage.getItem('WatchFeed') !== null){
+      setVisibleFeedDetails(true);
+      dispatch(wsWatchOrder(JSON.parse(localStorage.getItem('WatchFeed') || '{}')))
+    };
+},[dispatch]);
+  
 useEffect(() => {
   setOrderData([...bunsId, ...mainId, ...bunsId]);
-},[buns, main])
+},[buns, main]);
 
 useEffect(() => {
   dispatch(getApiIngredients())
-},[dispatch])
+},[dispatch]);
 
 useEffect(() => {
   if (localStorage.getItem('refreshToken') !== null) {
@@ -98,12 +97,6 @@ useEffect(() => {
   }
 }
 },[])
-
-// useEffect(() => {
-//   if (localStorage.getItem('refreshToken') !== null && getCookie('token')){
-//   dispatch(apiGetProfile());
-//   }
-// },[dispatch])
 
 useEffect(() => {
   if (openResetPassword){
@@ -139,7 +132,6 @@ useEffect(() => {
   const handleCloseModal = () => {
     dispatch(deleteWatchIngredient());
     dispatch(wsDeleteWatchOrder());
-    dispatch(wsAuthDeleteWatchOrder());
     setVisibleOrderDetails(false);
     setVisibleIngredientDetails(false);
     setVisibleFeedDetails(false);
@@ -210,7 +202,7 @@ useEffect(() => {
   const handleOpenFeedDetails = (data: TDataWatchOrder, userOrder: boolean) => {
     localStorage.setItem('WatchFeed', JSON.stringify(data));
     setVisibleFeedDetails(true);
-    userOrder ? dispatch((wsAuthWatchOrder(data))) : dispatch(wsWatchOrder(data));
+    dispatch(wsWatchOrder(data));
   }
 
   return (

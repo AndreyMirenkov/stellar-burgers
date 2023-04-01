@@ -3,7 +3,6 @@ import styles from './login.module.css';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
-// import { useForm } from "../../utils/hooks/useForm";
 
 type TLogin = {
     handleLogin: (email: string, password: string) => void
