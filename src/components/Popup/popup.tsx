@@ -12,9 +12,10 @@ type TPopup = {
 }
 
 const Popup:FC<TPopup> = ({isOpen, onClose}) => {
-    const watchElPopup = useSelector((store: any) => store.rootReducer.watchIngredients);
+    const watchElPopup = useSelector((store) => store.rootReducer.watchIngredients);
     const watchOrder = useSelector(store => store.wsReducer.watchOrder);
     const watchAuthOrder = useSelector(store => store.wsAuthReducer.watchOrder);
+    const watchIngredientLocalStorage = JSON.parse(localStorage.getItem('WatchIngredient') || '{}');
     let data: TDataWatchOrder = watchOrder
     let title: string = '';
 
@@ -24,24 +25,36 @@ const Popup:FC<TPopup> = ({isOpen, onClose}) => {
     if (location.pathname.includes('/ingredients')){
         ingredietnsPopup = true
     } else if (location.pathname.includes('/feed')){
-        data = watchOrder;
+        if(watchOrder.number !== null){
+            data = watchOrder;
+            title = '#'+ watchOrder.number;
+        } else {
+            data = JSON.parse(localStorage.getItem('WatchFeed') || '{}')
+            title = '#'+ data.number;
+        }
         ingredietnsPopup = false;
-        title = '#'+ watchOrder.number;
     } else {
-        data = watchAuthOrder;
+        if(watchAuthOrder.number !== null){
+            data = watchAuthOrder;
+            title = '#'+ watchAuthOrder.number;
+        } else {
+            data = JSON.parse(localStorage.getItem('WatchFeed') || '{}');
+            title = '#'+ data.number;
+        }
         ingredietnsPopup = false;
-        title = '#'+ watchAuthOrder.number;
     }
-
-   
 
     return(
         <>
         {isOpen && ( ingredietnsPopup ?
-
-            <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
-                <IngredientDetails data = {watchElPopup}/>
-            </Modal>
+                watchElPopup !== null ?
+                    <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
+                        <IngredientDetails data = {watchElPopup}/>
+                    </Modal> 
+                    :
+                    <Modal onClose={onClose} heading = {true} title={'Детали ингредиента'}>
+                        <IngredientDetails data = {watchIngredientLocalStorage}/>
+                    </Modal>
             :
             <Modal onClose={onClose} heading = {true} title={title} style = {'text text_type_digits-default'}>
                 <OrderPopup data = {data}/>

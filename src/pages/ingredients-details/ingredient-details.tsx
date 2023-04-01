@@ -10,7 +10,7 @@ import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 
 function IngredientDetails(){
     const dispatch  = useDispatch();
-    const ingredientId: any = useParams();
+    const ingredientId = useParams<{id: string}>();
     const ingredients = useSelector(store => store.rootReducer.ingredients);
     const [ingredient, setIngredient] = useState<Array<TIngredient>>([])
     const [loading, setLoading] = useState(false);  

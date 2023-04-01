@@ -1,4 +1,4 @@
-import { rootReducer } from "./reducers";
+import { initialState, rootReducer } from "./reducers";
 import * as types from '../actions/action';
 
 const arrayIngredient = [{
@@ -77,192 +77,55 @@ const watchIngredient = {
 
 describe('test ingredient reducer', () => {
     it('test initial state reducer', () => {
-        expect(rootReducer(undefined, {})).toEqual({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        })
+        expect(rootReducer(undefined, {})).toEqual(initialState)
     })
 
     it('test get all ingredients',() => {
-        expect(rootReducer({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        }, {
-            type: types.GET_ALL_INGREDIENTS,
-            items: arrayIngredient
-        })).toEqual({
-            ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        })
+        expect(rootReducer(initialState, {
+              type: types.GET_ALL_INGREDIENTS,
+              items: arrayIngredient
+            })).toEqual({
+              ...initialState,
+              ingredients: arrayIngredient,
+            })
     });
 
     it('test watch ingredient',() => {
-        expect(rootReducer({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        }, {
+        expect(rootReducer(initialState, {
             type: types.WATCH_INGREDIENTS,
             data: watchIngredient
         })).toEqual({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
+            ...initialState,
             watchIngredients: watchIngredient,
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test delete watch ingredient',() => {
         expect(rootReducer({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
+          ...initialState,
+          watchIngredients: watchIngredient,
         }, {
             type: types.DELETE_WATCH_INGREDIENTS,
-        })).toEqual({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        })
+        })).toEqual(initialState)
     });
 
     it('test get and update order',() => {
-        expect(rootReducer({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        }, {
+        expect(rootReducer(initialState, {
             type: types.GET_AND_UPDATE_ORDER,
             number: '1',
             name: 'burger',
         })).toEqual({
-            ingredients: [],
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
+            ...initialState,
             order: {
               number: '1',
               name: 'burger',
             },
-            loadingIngredientDetails: false
         })
     });
 
     it('test get constructor main ingredient',() => {
         expect(rootReducer({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -273,17 +136,12 @@ describe('test ingredient reducer', () => {
                   }
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         }, {
             type: types.GET_CONSTRUCTOR_MAIN_INGREDIENTS,
             item: {id: '2'},
             key: '2',
         })).toEqual({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -298,58 +156,31 @@ describe('test ingredient reducer', () => {
                     }
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test get constructor buns ingredient',() => {
         expect(rootReducer({
+            ...initialState,
             ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: [],
-                    key: null
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         }, {
             type: types.GET_CONSTRUCTOR_BUNS_INGREDIENTS,
             item: {id: '1'},
         })).toEqual({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [arrayIngredient[0]],
                 ingredients: [
-                    {
-                        details: [],
-                        key: null,
-                    }
+                    ...initialState.ingredientsInConstructor.ingredients,
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test delete constructor main ingredient',() => {
         expect(rootReducer({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -364,16 +195,11 @@ describe('test ingredient reducer', () => {
                   }
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         }, {
             type: types.DELETE_CONSTRUCTOR_MAIN_INGREDIENTS,
             key: '2',
         })).toEqual({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -384,17 +210,12 @@ describe('test ingredient reducer', () => {
                     },
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test update constructor main ingredient',() => {
         expect(rootReducer({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -409,32 +230,22 @@ describe('test ingredient reducer', () => {
                   }
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         }, {
             type: types.UPDATE_MAIN_INGREDIENTS,
             data: newArrayMainIngredient,
         })).toEqual({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
                 ingredients: newArrayMainIngredient
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test delete constructor ingredients',() => {
         expect(rootReducer({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
@@ -449,107 +260,37 @@ describe('test ingredient reducer', () => {
                   }
                 ]
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         }, {
             type: types.DELETE_CONSTRUCTOR_INGREDIENTS,
 
         })).toEqual({
+            ...initialState,
             ingredients: arrayIngredient,
             ingredientsInConstructor: {
                 buns: [],
                 ingredients: []
             },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
         })
     });
 
     it('test loading ingredient details',() => {
-        expect(rootReducer({
-            ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: arrayIngredient[0],
-                    key: '1'
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
-        }, {
+        expect(rootReducer(initialState, {
             type: types.LOADING_INGREDIENT_DETAILS,
         })).toEqual({
-            ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                    {
-                        details: arrayIngredient[0],
-                        key: '1'
-                    }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
+            ...initialState,
             loadingIngredientDetails: true
         })
     }); 
 
     it('test finish loading ingredient details',() => {
         expect(rootReducer({
-            ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                  {
-                    details: arrayIngredient[0],
-                    key: '1'
-                  }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
+            ...initialState,
+            loadingIngredientDetails: true,
         }, {
             type: types.FINISH_LOADING_INGREDIENT_DETAILS,
         })).toEqual({
-            ingredients: arrayIngredient,
-            ingredientsInConstructor: {
-                buns: [],
-                ingredients: [
-                    {
-                        details: arrayIngredient[0],
-                        key: '1'
-                    }
-                ]
-            },
-            watchIngredients: {},
-            order: {
-              number: null,
-              name: null,
-            },
-            loadingIngredientDetails: false
+            ...initialState,
+            loadingIngredientDetails: false,
         })
     }); 
 })

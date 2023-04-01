@@ -184,7 +184,7 @@ export const getApiIngredients= () => {
     }
 }
 
-export const getApiNumberOrder = (data: any) => {
+export const getApiNumberOrder = (data: string[]) => {
     return function(dispatch: AppDispatch){
         getNumberOrder(data)
         .then((res: any) => {

@@ -36,7 +36,16 @@ import { TDataWatchOrder } from '../../utils/typescriptTypes/watchOrder';
 
 type TMainIngredient = {
   details: TIngredient;
-  key: number;
+  key: string;
+}
+interface LocationParams {
+  background: {
+    pathname: string;
+    state: string;
+    search: string;
+    hash: string;
+    key: string;
+  }
 }
 
 function App() {
@@ -45,21 +54,30 @@ function App() {
   const [visibleFeedDetails, setVisibleFeedDetails] = useState(false);
   const [orderData, setOrderData] = useState<Array<string>>([]);
   const [openPreloader, setOpenPreloader] = useState(false);
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const buns: Array<TIngredient> = useSelector(store => store.rootReducer.ingredientsInConstructor.buns);
   const bunsId = buns.map((item: TIngredient) => item._id);
   const main: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
-  const mainId  = main.map(item=> item.details._id);
-  const timeToken = useSelector(store => store.authReducer.token.time);
-  const token = useSelector((store: any) => store.authReducer.token.refreshToken);
+  const mainId = main.map(item=> item.details._id);
+  const token = useSelector((store) => store.authReducer.token.refreshToken);
   const loggedIn = useSelector(store => store.authReducer.loggedIn);
   const openResetPassword = useSelector(store => store.authReducer.openResetPassword.inputEmailOnForgotPage)
   const successResetPassword = useSelector(store => store.authReducer.resetPassword);
   const history = useHistory();
-  const location: any = useLocation();
+  const location= useLocation<LocationParams>();
   let background = location.state && location.state.background;
+  console.log(background);
 
   const opacity = openPreloader ? 0.5 : 1
+
+useEffect(() => {
+  if (localStorage.getItem('WatchIngredient') !== null){
+    setVisibleIngredientDetails(true);
+  };
+  if (localStorage.getItem('WatchFeed') !== null){
+    setVisibleFeedDetails(true);
+  };
+},[])
 
 
 useEffect(() => {
@@ -113,6 +131,7 @@ useEffect(() => {
 
 
   const handleOpenIngredientDetails = (data: TIngredient) => {
+    localStorage.setItem('WatchIngredient', JSON.stringify(data));
     dispatch(watchIngredient(data));
     setVisibleIngredientDetails(true);
   }
@@ -138,9 +157,10 @@ useEffect(() => {
   }
 
   const getProfile = () => {
-    const nowTime: any = new Date()
+    const nowTime = new Date().getTime();
+    const timeToken = Number(localStorage.getItem('timeToken'));
     setOpenPreloader(true);
-    if (timeToken && nowTime - timeToken > 1200000){
+    if (timeToken && nowTime - timeToken > 1200000 && token !== null){
       dispatch(apiUpdateToken(token))
       setTimeout(() => {
         setOpenPreloader(false)
@@ -152,9 +172,11 @@ useEffect(() => {
   }
 
   const updateProfile = (name: string, email: string) => {
-    const nowTime: any = new Date()
+    const nowTime = new Date().getTime();
+    const timeToken = Number(localStorage.getItem('timeToken'));
+    console.log(timeToken);
     setOpenPreloader(true);
-    if (nowTime - timeToken > 1200000){
+    if (nowTime - timeToken > 1200000 && token !== null){
       dispatch(apiUpdateToken(token))
       setTimeout(() => {
         setOpenPreloader(false)
@@ -166,12 +188,15 @@ useEffect(() => {
   }
 
   const logoutProfile = () => {
-    dispatch(apiLogoutUser(token));
-    deleteCookie('token');
-    localStorage.removeItem('refreshToken')
-    setTimeout(() => {
-      history.push('/login')
-    },1000)
+    if (token !== null) {
+      dispatch(apiLogoutUser(token));
+      deleteCookie('token');
+      localStorage.removeItem('refreshToken')
+      localStorage.removeItem('timeToken');
+      setTimeout(() => {
+        history.push('/login')
+      },1000)
+    }
   }
 
   const forgotPassword = (email: string) => {
@@ -183,6 +208,7 @@ useEffect(() => {
   }
 
   const handleOpenFeedDetails = (data: TDataWatchOrder, userOrder: boolean) => {
+    localStorage.setItem('WatchFeed', JSON.stringify(data));
     setVisibleFeedDetails(true);
     userOrder ? dispatch((wsAuthWatchOrder(data))) : dispatch(wsWatchOrder(data));
   }
@@ -247,6 +273,7 @@ useEffect(() => {
           </Route>
 
         </Switch>
+
         {background && <Route path= '/ingredients/:id'>
           <Popup isOpen = {visibleIngredientDetails} onClose = {handleCloseModal} />
         </Route>}

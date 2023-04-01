@@ -1,4 +1,4 @@
-import { wsReducer } from "./ws-reducer";
+import { wsReducer, initialState } from "./ws-reducer";
 import * as types from '../actions/ws-action';
 
 const wsData = {
@@ -53,136 +53,41 @@ const wsDataWatchOrder = {
 
 describe('test ws reducer', () => {
     it('test initial state reducer', () => {
-        expect(wsReducer(undefined,{})).toEqual({
-            startConnected: false,
-            wsConnected: false,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
-        })
+        expect(wsReducer(undefined,{})).toEqual(initialState)
     });
 
     it('test ws connection start', () => {
-        expect(wsReducer({
-            startConnected: false,
-            wsConnected: false,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
-        },{
+        expect(wsReducer(initialState,{
             type: types.WS_CONNECTION_START,
         })).toEqual({
+            ...initialState,
             startConnected: true,
-            wsConnected: false,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         })
     });
 
     it('test ws connection success', () => {
         expect(wsReducer({
+            ...initialState,
             startConnected: true,
-            wsConnected: false,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         },{
             type: types.WS_CONNECTION_SUCCESS,
         })).toEqual({
+            ...initialState,
             startConnected: false,
             wsConnected: true,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
             error: undefined,
         })
     }); 
 
     it('test ws get message', () => {
         expect(wsReducer({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: false,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         },{
             type: types.WS_GET_MESSAGE,
             payload: wsData,
         })).toEqual({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
             data: {
                 success: wsData.success,
@@ -190,136 +95,39 @@ describe('test ws reducer', () => {
                 total: wsData.total,
                 totalToday: wsData.totalToday,
             },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
             error: undefined,
         })
     });
 
     it('test ws connection error', () => {
-        expect(wsReducer({
-            startConnected: false,
-            wsConnected: false,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
-        },{
+        expect(wsReducer(initialState,{
             type: types.WS_CONNECTION_ERROR,
             payload: 'error'
         })).toEqual({
-            startConnected: false,
-            wsConnected: false,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
+            ...initialState,
             error: 'error',
         })
     });
 
     it('test ws connection closed', () => {
         expect(wsReducer({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         },{
             type: types.WS_CONNECTION_CLOSED,
-        })).toEqual({
-            startConnected: false,
-            wsConnected: false,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
-        })
+        })).toEqual(initialState)
     });
 
     it('test ws watch order closed', () => {
         expect(wsReducer({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         },{
             type: types.WS_WATCH_ORDER,
             payload: wsDataWatchOrder,
         })).toEqual({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
             watchOrder: {
                 number: wsDataWatchOrder.number, 
                 name: wsDataWatchOrder.name, 
@@ -334,14 +142,8 @@ describe('test ws reducer', () => {
 
     it('test ws delete watch order', () => {
         expect(wsReducer({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
             watchOrder: {
                 number: wsDataWatchOrder.number, 
                 name: wsDataWatchOrder.name, 
@@ -354,23 +156,8 @@ describe('test ws reducer', () => {
         },{
             type: types.WS_DELETE_WATCH_ORDER,
         })).toEqual({
-            startConnected: false,
+            ...initialState,
             wsConnected: true,
-            data: {
-                success: null,
-                orders: [],
-                total: null,
-                totalToday: null,
-            },
-            watchOrder: {
-                number: null, 
-                name: '', 
-                data: [], 
-                infoDate: '', 
-                price: null, 
-                statusText: '',
-                styleStatus: ''
-            },
         })
     });
 

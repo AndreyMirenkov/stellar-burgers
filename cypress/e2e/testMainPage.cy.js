@@ -2,7 +2,7 @@ import '@4tw/cypress-drag-drop';
 
 describe('Test',() => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/');
+        cy.visit('/');
         const email = 'email2@ya.ru';
         const password = '12345678';
         cy.contains('Личный кабинет');

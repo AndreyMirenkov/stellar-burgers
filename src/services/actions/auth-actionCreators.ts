@@ -159,7 +159,9 @@ export const apiRegisterUser = (name: string, email: string, password: string) =
             const accessToken = res.accessToken;
             const token = accessToken.split(' ');
             setCookie('token', token[1]);
-            localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+            localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
+            const timeToken = String(new Date().getTime());
+            localStorage.setItem('timeToken', timeToken);
             dispatch(actionRegisterUser(res.user.name, res.user.email, token[1], res.refreshToken));
           } else {
             alert('Возникла ошибка при регистрации.');
@@ -178,7 +180,9 @@ export const apiLoginUser = (email: string, password: string) => {
             const accessToken = res.accessToken;
             const token = accessToken.split(' ');
             setCookie('token', token[1]);
-            localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+            localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
+            const timeToken = String(new Date().getTime());
+            localStorage.setItem('timeToken', timeToken);
             dispatch(actionLoginUser(res.user.name, res.user.email, token[1], res.refreshToken));
           } else {
             alert('Неправильный логин или пароль.');
@@ -213,6 +217,8 @@ export const apiUpdateToken = (token: string) => {
             const token = accessToken.split(' ');
             setCookie('token', token[1]);
             localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+            const timeToken = String(new Date().getTime());
+            localStorage.setItem('timeToken', timeToken);
             dispatch(actionUpdateToken(token[1], res.refreshToken));
           } else {
             alert('Возникла ошибка при проверке пользователя.');

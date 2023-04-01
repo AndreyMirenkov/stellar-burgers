@@ -33,7 +33,7 @@ type TData = {
     error?: Event;
   }
   
-  const initialState: TWSState = {
+  export const initialState: TWSState = {
     startConnected: false,
     wsConnected: false,
     data: {

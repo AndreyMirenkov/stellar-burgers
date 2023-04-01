@@ -26,7 +26,7 @@ export const getInfo = () => {
     }).then(checkResponse);
 }
 
-export const getNumberOrder = (data: TPost) => {
+export const getNumberOrder = (data: string[]) => {
     const token = 'Bearer ' + getCookie('token')
     return fetch(`${BASE_URL}/orders`, {
         method: 'POST',

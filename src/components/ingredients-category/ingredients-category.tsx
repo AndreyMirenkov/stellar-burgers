@@ -21,12 +21,7 @@ const dispatch = useDispatch();
     const ref = useRef<HTMLLIElement>(null)
     const [{ handlerId }, drop] = useDrop({
       accept: 'mains',
-      collect(monitor) {
-        return {
-          handlerId: monitor.getHandlerId(),
-        }
-      },
-      hover(item: any, monitor) {
+      hover(item: {id: string, index: number}, monitor) {
         if (!ref.current) {
           return
         }
@@ -35,7 +30,7 @@ const dispatch = useDispatch();
         if (dragIndex === hoverIndex) {
           return
         }
-        const hoverBoundingRect: any = ref.current?.getBoundingClientRect()
+        const hoverBoundingRect = ref.current?.getBoundingClientRect()
         const hoverMiddleY: number =
           (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
         const clientOffset = monitor.getClientOffset()
@@ -48,6 +43,11 @@ const dispatch = useDispatch();
         }
         moveIngredient(dragIndex, hoverIndex)
         item.index = hoverIndex
+      },
+      collect(monitor) {
+        return {
+          handlerId: monitor.getHandlerId(),
+        }
       },
     })
     const [{ isDragging }, drag] = useDrag({

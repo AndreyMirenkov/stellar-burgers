@@ -23,7 +23,7 @@ type TMainState = {
       key: string | null;
     }>;
   };
-  watchIngredients: TIngredient | {};
+  watchIngredients: TIngredient | null;
   order: {
     number: string | null;
     name: string | null;
@@ -42,7 +42,7 @@ export const initialState: TMainState = {
           }
         ]
     },
-    watchIngredients: {},
+    watchIngredients: null,
     order: {
       number: null,
       name: null,
@@ -67,7 +67,7 @@ export const rootReducer = (state = initialState, action: TMainActions): TMainSt
       case DELETE_WATCH_INGREDIENTS: {
         return {
           ...state,
-          watchIngredients: {}
+          watchIngredients: null
         };
       }
       case GET_AND_UPDATE_ORDER: {
