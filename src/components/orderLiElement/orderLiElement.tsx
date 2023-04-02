@@ -65,17 +65,19 @@ const OrderLiElement:FC<TOrderLiElement> = ({data, onClick, profileOrder = false
     })
 
 
-const today: any = new Date()
-const createdOrder: any = new Date(createdAt);
+const today = new Date().getTime();
+const createdOrder = new Date(createdAt).getTime();
+const createdOrderHours = new Date(createdOrder).getHours()
+const createdOrderMinutes = new Date(createdOrder).getMinutes();
 let infoDate: string = ''
 if((today - createdOrder) < 86400000){
-    infoDate = 'Сегодня, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
+    infoDate = 'Сегодня, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
 } else if(today - createdOrder >= 86400000 && today - createdOrder < 172800000){
-    infoDate = 'Вчера, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
+    infoDate = 'Вчера, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
 } else if(today - createdOrder >= 172800000 && today - createdOrder < 432000000){
-    infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дня назад, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
+    infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дня назад, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
 } else if(today - createdOrder >= 432000000){
-    infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дней назад, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
+    infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дней назад, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
 }
 
 let statusText: string = ''

@@ -184,13 +184,13 @@ export const getApiIngredients= () => {
     }
 }
 
-export const getApiNumberOrder = (data: any) => {
+export const getApiNumberOrder = (data: string[]) => {
     return function(dispatch: AppDispatch){
         getNumberOrder(data)
         .then((res: any) => {
             dispatch(getAndUpdateOrder(res.order.number, res.name));
-        }).catch(err => {
+        }).catch((err) => {
             alert(`Возникла ошибка ${err}`)
-        })
+        });
     }
 }

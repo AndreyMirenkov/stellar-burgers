@@ -3,11 +3,11 @@ import styles from './ingredient-details.module.css';
 import {TIngredient} from '../../utils/typescriptTypes/ingredient'
 
 type TIngredientDetails = {
-    data: TIngredient;
+    data: TIngredient ;
 }
 
 const IngredientDetails: FC<TIngredientDetails> = ({data}) => {
-      
+
     return (
         <div className={styles.content}>
             <img className={styles.img} src = {data.image} alt = 'Картинка'/>

@@ -27,6 +27,10 @@ type TMainIngredient = {
     key: string;
 }
 
+type TItemDrop = {
+    id: string;
+}
+
 const BurgerConstructor: FC<TBurgerConstructor> = ({isOpen, onClose, onClick}) => {
     
 const dispatch = useDispatch();
@@ -35,9 +39,9 @@ const [priceArrayMain, setPriceArrayMain] = useState<Array<number>>([]);
 const infoOrderNumber = useSelector(store => store.rootReducer.order.number);
 const infoOrderName = useSelector(store => store.rootReducer.order.name);
 const mainIngredients: Array<TMainIngredient> = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.ingredients);
-const bunsIngredients = useSelector((store: any) => store.rootReducer.ingredientsInConstructor.buns);
+const bunsIngredients: Array<TIngredient> = useSelector((store) => store.rootReducer.ingredientsInConstructor.buns);
 const priceBuns = useMemo(() => bunsIngredients.map((item: TIngredient)=> item.price), [bunsIngredients])
-const sumBuns = useMemo(() => priceBuns * 2,[priceBuns]);
+const sumBuns = useMemo(() => priceBuns.reduce((previousValue, currentValue) => previousValue + currentValue * 2,0),[priceBuns])
 const sumMain = useMemo(() => priceArrayMain.reduce((previousValue, currentValue) => previousValue + currentValue, 0), [priceArrayMain]);
 const sum = useMemo(() => sumMain + sumBuns, [sumMain, sumBuns]);
 
@@ -49,34 +53,34 @@ useEffect(() =>{
 },[mainIngredients])
 
 
-const [{ isHover }, dropTarget] = useDrop({
+const [ {isHover} , dropTarget] = useDrop({
     accept: 'main',
-    collect: monitor => ({
-      isHover: monitor.isOver()
-    }),
-    drop(item: any){
+    drop(item: TItemDrop){
         const key = String(uuidv4());
         dispatch(getConstructorMainIngredients(item, key))
-  }
+    },
+    collect: monitor => ({
+        isHover: monitor.isOver()
+    }),
   });
   const [{ isHoverBunTop }, dropBunTop] = useDrop({
     accept: 'buns',
-    collect: monitor => ({
-      isHoverBunTop: monitor.isOver()
-    }),
-    drop(item: any){
+    drop(item: TItemDrop){
         dispatch(getConstructorBunsIngredients(item))
-  }
+    },
+    collect: monitor => ({
+        isHoverBunTop: monitor.isOver()
+      }),
   });
 
   const [{ isHoverBunBottom }, dropBunBottom] = useDrop({
     accept: 'buns',
-    collect: monitor => ({
-      isHoverBunBottom: monitor.isOver()
-    }),
-    drop(item: any){
+    drop(item: TItemDrop){
         dispatch(getConstructorBunsIngredients(item))
-  }
+    },
+    collect: monitor => ({
+        isHoverBunBottom: monitor.isOver()
+      }),
   });
 
 useEffect(() => {
@@ -107,7 +111,7 @@ const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
     return(
         <section className={`mt-25 ${styles.content}`}>
             <div className={styles.ingredients_constructor}>
-                <div ref ={dropBunTop} className='ml-4 mr-4 pl-8' style =  {{border: borderBuns, borderRadius: '88px 88px 40px 40px'}}>
+                <div ref ={dropBunTop} id = 'dropBunTop' className='ml-4 mr-4 pl-8' style =  {{border: borderBuns, borderRadius: '88px 88px 40px 40px'}}>
                 {bunsIngredients[0] ?
                     <ConstructorElement
                         type="top"
@@ -119,7 +123,7 @@ const moveIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
                     <div className = {`text text_type_main-default ${styles.drop_container_top}`}>Выберите булку</div>}
                 </div>
                 <DndProvider backend={HTML5Backend}>
-                <ul ref = {dropTarget} className= {styles.fill} style = {{border: borderMain, borderRadius: 40}}>
+                <ul ref = {dropTarget} id = 'dropMain' className= {styles.fill} style = {{border: borderMain, borderRadius: 40}}>
                 {mainIngredients.length !== 0 ? 
                     mainIngredients.map((el, index) => (
                     <IngredientsCategory key={el.key} id = {el.details._id} text = {el.details.name} price = {el.details.price} thumbnail = {el.details.image} index = {index} moveIngredient = {moveIngredient} keyDelete = {el.key}/>

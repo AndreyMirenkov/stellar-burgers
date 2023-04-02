@@ -54,7 +54,7 @@ const AppHeader: FC = () => {
     return (
         <header className={styles.header}>
                 <nav className={styles.list}>
-                    <Link to = '/' className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                    <Link to = '/' className={`mr-2 pl-5 pr-5 pb-4 pt-4 ${styles.item}`} data-testid = 'button_constructor'>
                         <BurgerIcon type={markMain}/>
                         <p className = {`pl-2 text text_type_main-default ${textActiveMain} ${styles.text}`}>Конструктор</p>
                     </Link>
@@ -66,7 +66,7 @@ const AppHeader: FC = () => {
                 <Link to = '/' className={styles.logo}>
                     <Logo/>
                 </Link>
-                <Link to = '/profile' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`}>
+                <Link to = '/profile' className={`pl-5 pr-5 pb-4 pt-4 ${styles.item}`} data-testid = 'button_personal_account'>
                     <ProfileIcon type={markProfile} />
                     <p className={`pl-2 text text_type_main-default ${textActiveProfile} ${styles.text}`}>Личный кабинет</p>
                 </Link>

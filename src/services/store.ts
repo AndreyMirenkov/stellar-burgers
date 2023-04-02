@@ -4,7 +4,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware} from 'redux';
 import { mainReducer } from "./reducers/combine-reducers";
 import { socketMiddleware } from "./middleware/socketMiddleware";
-import { socketAuthMiddleware } from "./middleware/socketAuthMiddleware";
 
 
 export const configurationStore = () => {
@@ -15,7 +14,6 @@ export const configurationStore = () => {
             applyMiddleware(
                thunkMiddleware,
                socketMiddleware(),
-               socketAuthMiddleware(),
             )
         )
     );

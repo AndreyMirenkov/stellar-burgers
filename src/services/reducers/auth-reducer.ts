@@ -12,12 +12,11 @@ import { TAuthActions } from "../actions/auth-actionCreators";
 
 type TAuthState = {
   loggedIn: boolean,
-    name: string | null,
-    email: string | null,
+    name: string,
+    email: string,
     token: {
         accessToken: string| null,
         refreshToken: string | null,
-        time: any
     },
     openResetPassword: {
       inputEmailOnForgotPage: boolean
@@ -27,12 +26,11 @@ type TAuthState = {
 
 export const initialState: TAuthState = {
     loggedIn: false,
-    name: null,
-    email: null,
+    name: '',
+    email: '',
     token: {
         accessToken: null,
         refreshToken: null,
-        time: null
     },
     openResetPassword: {
       inputEmailOnForgotPage: false
@@ -51,7 +49,6 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
           token: {
             accessToken: action.accessToken,
             refreshToken: action.refreshToken,
-            time: new Date()
           }
         };
       }
@@ -64,7 +61,6 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
           token: {
             accessToken: action.accessToken,
             refreshToken: action.refreshToken,
-            time: new Date()
           }
         };
       }
@@ -79,12 +75,11 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         return {
           ...state,
           loggedIn: false,
-          name: null,
-          email: null,
+          name: '',
+          email: '',
           token: {
             accessToken: null,
             refreshToken: null,
-            time: null
           },
         }
       }
@@ -102,7 +97,6 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
           token: {
             accessToken: action.accessToken,
             refreshToken: action.refreshToken,
-            time: new Date()
           }
         }
       }
@@ -134,22 +128,3 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
       }
     }
 }
-
-
-// startConnected: false,
-// wsConnected: false,
-// data: {
-//     success: false,
-//     orders: [],
-//     total: null,
-//     totalToday: null,
-// },
-// watchOrder: {
-//     number: null, 
-//     name: '', 
-//     data: [], 
-//     infoDate: '', 
-//     price: null, 
-//     statusText: '',
-//     styleStatus: ''
-// },

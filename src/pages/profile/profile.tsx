@@ -13,8 +13,8 @@ type TProfile = {
 
 const Profile:FC<TProfile> = ({updateProfile, logoutProfile}) => {
 
-    const name: string = useSelector((store: any) => store.authReducer.name);
-    const email: string = useSelector((store: any) => store.authReducer.email)
+    const name = useSelector((store) => store.authReducer.name);
+    const email = useSelector((store) => store.authReducer.email)
     const [inputName, setInputName] = useState(name);
     const [inputEmail, setInputEmail] = useState(email);
     const [inputPassword, setInputPassword] = useState('');

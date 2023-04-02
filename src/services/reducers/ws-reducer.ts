@@ -33,7 +33,7 @@ type TData = {
     error?: Event;
   }
   
-  const initialState: TWSState = {
+  export const initialState: TWSState = {
     startConnected: false,
     wsConnected: false,
     data: {
@@ -79,13 +79,19 @@ type TData = {
             return {
             ...state,
                 error: action.payload,
-                wsConnected: false
+                wsConnected: false,
             };
         case WS_CONNECTION_CLOSED:
             return {
             ...state,
                 error: undefined,
-                wsConnected: false
+                wsConnected: false,
+                data: {
+                    success: false,
+                    orders: [],
+                    total: null,
+                    totalToday: null,
+                },
             };
         case WS_WATCH_ORDER:
             return {

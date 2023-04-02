@@ -5,12 +5,11 @@ import { store } from '../../index';
 import { TMainActions } from '../../services/actions/actionCreators';
 import { TAuthActions } from '../../services/actions/auth-actionCreators';
 import { TWSAction } from '../../services/actions/ws-actionCreators';
-import { TWSAuthAction } from '../../services/actions/ws-authActionCreators';
 
 export type RootState = ReturnType<typeof store.getState>;
 
 // Типизация всех экшенов приложения
-type TApplicationActions = TMainActions | TAuthActions | TWSAction | TWSAuthAction;
+type TApplicationActions = TMainActions | TAuthActions | TWSAction;
 
 // Типизация thunk'ов в нашем приложении
 export type AppThunk<TReturn = void> = ActionCreator<

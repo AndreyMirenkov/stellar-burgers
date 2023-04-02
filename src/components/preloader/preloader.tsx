@@ -1,7 +1,7 @@
 import React from 'react';
 import { FC } from 'react';
 import styles from './preloader.module.css'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../utils/hooks/hooks';
 
 type TPreloader = {
     open: boolean;
@@ -9,7 +9,7 @@ type TPreloader = {
 
 const Preloader:FC<TPreloader> = ({open}):JSX.Element | null => {
 
-    const loading: boolean = useSelector((store: any) => store.rootReducer.loadingIngredientDetails);
+    const loading: boolean = useSelector((store) => store.rootReducer.loadingIngredientDetails);
 
     return(
         <> 

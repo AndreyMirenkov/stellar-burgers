@@ -23,14 +23,15 @@ type TFeedIdContent = {
 
 const FeedIdContent: FC<TFeedIdContent> = ({allOrder}) => {
 
-    const feedId: any = useParams();
+    const feedId = useParams<{id: string}>();
     const allIngredients = useSelector(store => store.rootReducer.ingredients);
-    const [feed, setFeed] = useState<any>({})
+    const [feed, setFeed] = useState<TOrder | null>(null)
     const [loading, setLoading] = useState(false);  
     const [notFoundFeed, setNotFoundFeed] = useState(false)
     const [textNotFoundFeed, textSetNotFoundFeed] = useState('');
     let array: Array<TUniqueArray>= []
     let price: number = 0;
+    let infoDate: string = '';
 
     const opacity = notFoundFeed ? 1 : 0
 
@@ -40,7 +41,7 @@ const FeedIdContent: FC<TFeedIdContent> = ({allOrder}) => {
     useEffect(() => {
         setNotFoundFeed(false);
         if (allOrder.length !== 0){
-        const data = allOrder.findIndex((el: any) => el._id === feedId.id)
+        const data = allOrder.findIndex((el) => el._id === feedId.id)
             if (data >= 0){
                 setLoading(true);
                 textSetNotFoundFeed('')
@@ -54,7 +55,7 @@ const FeedIdContent: FC<TFeedIdContent> = ({allOrder}) => {
     },[allOrder, feedId])
 
 
-    if (feed.ingredients !== null){
+    if (feed !==null && feed.ingredients !== null){
         feed.ingredients?.forEach((el: string) =>  { 
             counts[el] = (counts[el] || 0) + 1; 
         });
@@ -76,23 +77,25 @@ const FeedIdContent: FC<TFeedIdContent> = ({allOrder}) => {
             price = price + item.ingredient.price * item.count
         }
     })
-
-    const today: any = new Date()
-    const createdOrder: any = new Date(feed.createdAt);
-    let infoDate: string = ''
-    if((today - createdOrder) < 86400000){
-        infoDate = 'Сегодня, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
-    } else if(today - createdOrder >= 86400000 && today - createdOrder < 172800000){
-        infoDate = 'Вчера, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
-    } else if(today - createdOrder >= 172800000 && today - createdOrder < 432000000){
-        infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дня назад, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
-    } else if(today - createdOrder >= 432000000){
-        infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дней назад, ' + (createdOrder.getHours())+':'+(createdOrder.getMinutes()) + ' i-GMT+3'
+    if (feed !== null){
+        const today = new Date().getTime();
+        const createdOrder = new Date(feed.createdAt).getTime();
+        const createdOrderHours = new Date(createdOrder).getHours()
+        const createdOrderMinutes = new Date(createdOrder).getMinutes();
+        if((today - createdOrder) < 86400000){
+            infoDate = 'Сегодня, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
+        } else if(today - createdOrder >= 86400000 && today - createdOrder < 172800000){
+            infoDate = 'Вчера, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
+        } else if(today - createdOrder >= 172800000 && today - createdOrder < 432000000){
+            infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дня назад, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
+        } else if(today - createdOrder >= 432000000){
+            infoDate = (Math.floor((today - createdOrder)/86400000)) + ' дней назад, ' + (createdOrderHours)+':'+(createdOrderMinutes) + ' i-GMT+3'
+        }
     }
 
     return(
         <>
-             {loading 
+             {loading && feed !== null
         ?
         <div className={styles.content}>
            <p className={`mb-10 text text_type_digits-default ${styles.number}`}>#{feed.number}</p>

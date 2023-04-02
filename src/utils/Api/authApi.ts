@@ -20,9 +20,9 @@ export const registerUser = ({name, email, password}: TUser) => {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
+            name,
             email, 
             password, 
-            name 
         })
     }).then(checkResponse);
 } 

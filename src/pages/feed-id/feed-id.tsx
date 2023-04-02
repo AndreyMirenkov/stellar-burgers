@@ -13,7 +13,7 @@ const FeedId = () => {
     const dispatch  = useDispatch();
 
     useEffect(() => {
-        dispatch(wsConnectionStart(WSUrl));
+        setTimeout(() => dispatch(wsConnectionStart(WSUrl)),10);
     
         return () => {
             dispatch(wsConnectionClosed());
